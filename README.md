@@ -33,6 +33,13 @@ JP Jones
 
 (Room/Amenities) 1:Many - Many Rooms can have and amenity
 
+## Architecture
+
+AsyncInnDbContext is now handle through a dependency injection.  Each of the tables are now contolled by a repository via an interface.
+The repective controllers cannot directly access the database.
+
+
+
 
 
 
