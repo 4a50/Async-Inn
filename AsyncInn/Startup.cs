@@ -11,50 +11,56 @@ using Microsoft.Extensions.Hosting;
 
 namespace AsyncInn
 {
-    public class Startup
+  public class Startup
+  {
+    public IConfiguration Configuration { get; }
+    // This method gets called by the runtime. Use this method to add services to the container.
+    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+    public Startup(IConfiguration configuration)
     {
-        public IConfiguration Configuration { get; }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+      Configuration = configuration;
+    }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<AsyncInnDbContext>(options =>
-            {
-                // Our DATABASE_URL from js days
-                string connectionString = Configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlServer(connectionString);
-            });
-            services.AddTransient<IRoom, RoomRepository>();
-            services.AddTransient<IHotel, HotelRepository>();
-            services.AddTransient<IAmenity, AmenityRepository>();
-            services.AddMvc();
-            services.AddControllers();
-        }
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+    public void ConfigureServices(IServiceCollection services)
+    {
+      services.AddDbContext<AsyncInnDbContext>(options =>
+      {
+        // Our DATABASE_URL from js days
+        string connectionString = Configuration.GetConnectionString("DefaultConnection");
+        options.UseSqlServer(connectionString);
+      });
 
-            app.UseRouting();
+      services.AddTransient<IRoom, RoomRepository>();
+      services.AddTransient<IHotel, HotelRepository>();
+      services.AddTransient<IAmenity, AmenityRepository>();
+      services.AddMvc();
+      services.AddControllers();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Welcome the Async Inn");
-                });
-                endpoints.MapControllers();
-            });
-        }
+      services.AddControllers().AddNewtonsoftJson(options =>
+      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 
     }
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+      if (env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
+
+      app.UseRouting();
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapGet("/", async context =>
+              {
+                await context.Response.WriteAsync("Welcome the Async Inn");
+              });
+        endpoints.MapControllers();
+      });
+    }
+
+
+  }
 }
