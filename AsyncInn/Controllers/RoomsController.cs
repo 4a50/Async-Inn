@@ -76,7 +76,7 @@ namespace AsyncInn.Controllers
 
     //DELETE: /api/Rooms/3/2
     [HttpDelete("{id}/Amenity/{amenityId}")]
-    public async Task<ActionResult<Room>> RemoveAmenityFromRoom (int id, int amenityId)
+    public async Task<ActionResult<Room>> RemoveAmenityFromRoom(int id, int amenityId)
     {
       await _room.RemoveAmenityFromRoom(id, amenityId);
       return NoContent();

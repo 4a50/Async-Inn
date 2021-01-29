@@ -25,11 +25,11 @@ namespace AsyncInn
     {
       services.AddDbContext<AsyncInnDbContext>(options =>
       {
-              // Our DATABASE_URL from js days
-              string connectionString = Configuration.GetConnectionString("DefaultConnection");
+        // Our DATABASE_URL from js days
+        string connectionString = Configuration.GetConnectionString("DefaultConnection");
         options.UseSqlServer(connectionString);
       });
-      
+
       services.AddTransient<IRoom, RoomRepository>();
       services.AddTransient<IHotel, HotelRepository>();
       services.AddTransient<IAmenity, AmenityRepository>();
@@ -38,7 +38,7 @@ namespace AsyncInn
 
       services.AddControllers().AddNewtonsoftJson(options =>
       options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-      
+
 
     }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +55,8 @@ namespace AsyncInn
       {
         endpoints.MapGet("/", async context =>
               {
-            await context.Response.WriteAsync("Welcome the Async Inn");
-          });
+                await context.Response.WriteAsync("Welcome the Async Inn");
+              });
         endpoints.MapControllers();
       });
     }

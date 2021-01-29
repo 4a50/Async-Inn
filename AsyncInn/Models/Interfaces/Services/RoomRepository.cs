@@ -41,13 +41,13 @@ namespace AsyncInn.Models.Interfaces.Services
     }
 
     public async Task<Room> GetRoom(int Id)
-    {      
+    {
       Room room = await _context.Room.FindAsync(Id);
       var amenities = await _context.RoomAmenities.Where(x => x.RoomId == Id)
                                                   .Include(x => x.Amenities)
                                                   .ToListAsync();
 
-      room.Amenities = amenities;                                                    
+      room.Amenities = amenities;
       return room;
 
     }

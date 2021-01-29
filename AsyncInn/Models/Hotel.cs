@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AsyncInn.Models
 {
@@ -18,6 +19,9 @@ namespace AsyncInn.Models
     public string Country { get; set; }
     [Required]
     public string Phone { get; set; }
+
+    //Navigation 
+    public List<HotelRoom> HotelRoom { get; set; }
 
   }
 }

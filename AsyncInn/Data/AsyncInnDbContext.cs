@@ -30,12 +30,12 @@ namespace AsyncInn.Data
       modelBuilder.Entity<Amenity>().HasData(new Amenity { ID = 3, Name = "Coffee Pot" });
 
       modelBuilder.Entity<RoomAmenities>().HasKey(
-        roomamenities => new {roomamenities.AmenityId, roomamenities.RoomId}
+        roomamenities => new { roomamenities.AmenityId, roomamenities.RoomId }
         );
       modelBuilder.Entity<HotelRoom>().HasKey(
         hotelroom => new { hotelroom.HotelID, hotelroom.RoomID }
         );
-      
+
       //Build Model.
       //Add a DbSet.
       //Create a composite key
