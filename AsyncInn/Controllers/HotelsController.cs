@@ -53,6 +53,15 @@ namespace AsyncInn.Controllers
       return Ok(updatedHotel);
     }
 
+    // Post: api/Hotels/1/Rooms/3
+    [HttpPost]
+    [Route("{hotelID}/Rooms")]
+    public async Task<ActionResult<HotelRoom>> AddHotelRoom(int hotelID)
+    {
+      await _hotel.AddHotelRoom(hotelID);
+      return NoContent();
+    }
+
     // POST: api/Hotels
     // To protect from overposting attacks, enable the specific properties you want to bind to, for
     // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

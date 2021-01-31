@@ -1,6 +1,7 @@
 ﻿using AsyncInn.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Models.Interfaces.Services
@@ -20,11 +21,12 @@ namespace AsyncInn.Models.Interfaces.Services
       return hotelRoom;
     }
 
-    public async Task<HotelRoom> GetHotelRoom(int hotelid, int roomid)
+    public async Task<HotelRoom> GetHotelRoom(int hotelid, int roomNumber)
     {
       //this will find the record for the hotel and RoomId.
 
-      HotelRoom hotelRoom = await _context.HotelRoom.FindAsync(hotelid, roomid);
+      var hotelRoom = await _context.HotelRoom.Where(x => x.HotelID == hotelid && x.RoomNumber == roomNumber).FirstOrDefaultAsync();
+      
       return hotelRoom;
     }
 

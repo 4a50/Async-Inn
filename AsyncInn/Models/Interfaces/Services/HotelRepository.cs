@@ -14,6 +14,15 @@ namespace AsyncInn.Models.Interfaces.Services
       _context = context;
     }
 
+    public async Task AddHotelRoom(int hotelID)
+    {
+      HotelRoom newHotelRoom = new HotelRoom()
+      { HotelID = hotelID };
+
+      _context.Entry(newHotelRoom).State = EntityState.Added;
+      await _context.SaveChangesAsync();
+    }
+
     public async Task<Hotel> Create(Hotel hotel)
     {
       _context.Entry(hotel).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
