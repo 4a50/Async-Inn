@@ -1,6 +1,9 @@
 ﻿using AsyncInn.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Models.Interfaces.Services
@@ -14,18 +17,20 @@ namespace AsyncInn.Models.Interfaces.Services
       _context = context;
     }
 
-    public async Task AddHotelRoom(int hotelID)
-    {
+    public async Task AddHotelRoom(int hotelID, int roomNumber)
+    {      
+      Hotel hotel = await _context.Hotel.FindAsync(hotelID);
+     
       HotelRoom newHotelRoom = new HotelRoom()
-      { HotelID = hotelID };
-
+      { PetFriendly = false,  Rate = 0.00M, HotelID = hotel.Id, RoomID = roomNumber };          
       _context.Entry(newHotelRoom).State = EntityState.Added;
+
       await _context.SaveChangesAsync();
     }
 
     public async Task<Hotel> Create(Hotel hotel)
     {
-      _context.Entry(hotel).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+      _context.Entry(hotel).State = EntityState.Added;
       await _context.SaveChangesAsync();
       return hotel;
 
@@ -37,6 +42,16 @@ namespace AsyncInn.Models.Interfaces.Services
       Hotel hotel = await GetHotel(ID);
       _context.Remove(hotel).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
       await _context.SaveChangesAsync();
+    }
+
+    public async Task<Hotel> GetAllRoomsInHotel(int hotelId)
+    {
+      var hotel = await _context.Hotel.FindAsync(hotelId);
+      var roomList = await _context.HotelRoom
+          .Where(x => x.HotelID == hotelId)          
+          .ToListAsync();
+      hotel.HotelRoom = roomList;
+      return new Hotel();
     }
 
     public async Task<Hotel> GetHotel(int ID)

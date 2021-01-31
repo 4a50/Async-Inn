@@ -2,7 +2,7 @@
 
 namespace AsyncInn.Migrations
 {
-    public partial class addedRoomRoute : Migration
+    public partial class attemptHRtoH : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

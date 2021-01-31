@@ -121,10 +121,10 @@ namespace AsyncInn.Migrations
 
             modelBuilder.Entity("AsyncInn.Models.HotelRoom", b =>
                 {
-                    b.Property<int>("HotelID")
+                    b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomID")
+                    b.Property<int>("HotelID")
                         .HasColumnType("int");
 
                     b.Property<bool>("PetFriendly")
@@ -133,10 +133,12 @@ namespace AsyncInn.Migrations
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("RoomNumber")
+                    b.Property<int>("RoomID")
                         .HasColumnType("int");
 
-                    b.HasKey("HotelID", "RoomID");
+                    b.HasKey("RoomNumber", "HotelID");
+
+                    b.HasIndex("HotelID");
 
                     b.HasIndex("RoomID");
 

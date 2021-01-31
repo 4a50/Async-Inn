@@ -16,15 +16,14 @@ namespace AsyncInn.Controllers
     {
       _hotel = hotel;
     }
-
-    // GET: api/Hotels
-    [HttpGet]
+    //GET: api/Hotels
+   [HttpGet]
     public async Task<ActionResult<IEnumerable<Hotel>>> GetHotel()
     {
       return Ok(await _hotel.GetHotels());
     }
 
-    // GET: api/Hotels/5
+    //GET: api/Hotels/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Hotel>> GetHotel(int id)
     {
@@ -37,10 +36,14 @@ namespace AsyncInn.Controllers
 
       return hotel;
     }
-
-    // PUT: api/Hotels/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+    //Get: api/Hotels/2/Rooms
+    [HttpGet]
+    [Route("{hotelId}/Rooms")]
+    public async Task<ActionResult<Hotel>> GetAllRoomsInHotel(int hotelId)
+    {
+      return Ok(await _hotel.GetAllRoomsInHotel(hotelId));
+    }
+    //PUT: api/Hotels/5     
     [HttpPut("{id}")]
     public async Task<IActionResult> PutHotel(int id, Hotel hotel)
     {
@@ -52,7 +55,6 @@ namespace AsyncInn.Controllers
       var updatedHotel = await _hotel.UpdateHotel(id, hotel);
       return Ok(updatedHotel);
     }
-
     // Post: api/Hotels/1/Rooms/3
     [HttpPost]
     [Route("{hotelID}/Rooms")]
@@ -61,24 +63,20 @@ namespace AsyncInn.Controllers
       await _hotel.AddHotelRoom(hotelID);
       return NoContent();
     }
-
-    // POST: api/Hotels
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+    // POST: api/Hotels    
     [HttpPost]
     public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
     {
       await _hotel.Create(hotel);
       return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
     }
-
     // DELETE: api/Hotels/5
     [HttpDelete("{id}")]
     public async Task<ActionResult<Hotel>> DeleteHotel(int id)
     {
       await _hotel.DeleteHotel(id);
-
       return NoContent();
     }
+
   }
 }
