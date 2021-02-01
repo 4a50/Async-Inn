@@ -36,13 +36,41 @@ namespace AsyncInn.Controllers
 
       return hotel;
     }
+    /// <summary>
+    /// Get all rooms in the Hotel
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <returns></returns>
     //Get: api/Hotels/2/Rooms
     [HttpGet]
     [Route("{hotelId}/Rooms")]
     public async Task<ActionResult<Hotel>> GetAllRoomsInHotel(int hotelId)
-    {
+    {      
       return Ok(await _hotel.GetAllRoomsInHotel(hotelId));
     }
+    /// <summary>
+    /// Get the Room Details of a specific Room in a selected Hotel
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
+    //Get: api/Hotels/3/Rooms/3
+
+    [HttpGet]
+    [Route("{hotelId}/Rooms/{roomNumber}")]
+    public async Task<ActionResult<Hotel>> GetRoomDetails(int hotelId, int roomNumber)
+    {
+      return Ok(await _hotel.GetRoomDetails(hotelId, roomNumber));
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="hotel"></param>
+    /// <returns></returns>
+
     //PUT: api/Hotels/5     
     [HttpPut("{id}")]
     public async Task<IActionResult> PutHotel(int id, Hotel hotel)
@@ -57,10 +85,10 @@ namespace AsyncInn.Controllers
     }
     // Post: api/Hotels/1/Rooms/3
     [HttpPost]
-    [Route("{hotelID}/Rooms")]
-    public async Task<ActionResult<HotelRoom>> AddHotelRoom(int hotelID)
+    [Route("{hotelID}/Rooms/{roomNumber}")]
+    public async Task<ActionResult<HotelRoom>> AddHotelRoom(int hotelID, int roomNumber)
     {
-      await _hotel.AddHotelRoom(hotelID);
+      await _hotel.AddHotelRoom(hotelID, roomNumber);
       return NoContent();
     }
     // POST: api/Hotels    
