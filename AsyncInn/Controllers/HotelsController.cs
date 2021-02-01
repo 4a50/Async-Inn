@@ -2,6 +2,7 @@
 using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Controllers
@@ -16,13 +17,21 @@ namespace AsyncInn.Controllers
     {
       _hotel = hotel;
     }
+    /// <summary>
+    /// Gets a list of all the hotels
+    /// </summary>
+    /// <returns></returns>
     //GET: api/Hotels
-   [HttpGet]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<Hotel>>> GetHotel()
     {
       return Ok(await _hotel.GetHotels());
     }
-
+    /// <summary>
+    /// Gets the information for a given hotel
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     //GET: api/Hotels/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Hotel>> GetHotel(int id)
@@ -65,12 +74,11 @@ namespace AsyncInn.Controllers
 
 
     /// <summary>
-    /// 
+    /// Updates the information for a specified hotel
     /// </summary>
     /// <param name="id"></param>
     /// <param name="hotel"></param>
     /// <returns></returns>
-
     //PUT: api/Hotels/5     
     [HttpPut("{id}")]
     public async Task<IActionResult> PutHotel(int id, Hotel hotel)
@@ -79,10 +87,16 @@ namespace AsyncInn.Controllers
       {
         return BadRequest();
       }
-
       var updatedHotel = await _hotel.UpdateHotel(id, hotel);
       return Ok(updatedHotel);
     }
+    /// <summary>
+    /// Adds a Room to a Given Hotel
+    /// </summary>
+    /// <param name="hotelID"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
+    
     // Post: api/Hotels/1/Rooms/3
     [HttpPost]
     [Route("{hotelID}/Rooms/{roomNumber}")]
@@ -91,6 +105,11 @@ namespace AsyncInn.Controllers
       await _hotel.AddHotelRoom(hotelID, roomNumber);
       return NoContent();
     }
+    /// <summary>
+    /// Creates a new Hotel
+    /// </summary>
+    /// <param name="hotel"></param>
+    /// <returns></returns>
     // POST: api/Hotels    
     [HttpPost]
     public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
@@ -98,11 +117,47 @@ namespace AsyncInn.Controllers
       await _hotel.Create(hotel);
       return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
     }
+    /// <summary>
+    /// Deletes a Hotel
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // DELETE: api/Hotels/5
     [HttpDelete("{id}")]
     public async Task<ActionResult<Hotel>> DeleteHotel(int id)
     {
       await _hotel.DeleteHotel(id);
+      return NoContent();
+    }
+    /// <summary>
+    /// Updates a specific Hotel Room
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <param name="roomNumber"></param>
+    /// <param name="hotelRoom"></param>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("/{hotelId}/Rooms/{roomNumber}")]
+    public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, HotelRoom hotelRoom)
+    {
+      if (hotelId != hotelRoom.HotelID || roomNumber != hotelRoom.RoomNumber)
+      {
+        return BadRequest();      }
+      
+      var updatedHotelRoom = await _hotel.UpdateHotelRoom(hotelId, roomNumber, hotelRoom);
+      return Ok(updatedHotelRoom);      
+    }
+    /// <summary>
+    /// Deletes a Hotel Room
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
+    [HttpDelete]
+    [Route("{hotelId}/Rooms/{roomNumber}")]
+    public async Task<ActionResult<HotelRoom>> DeleteHotelRoom (int hotelId, int roomNumber)
+    {
+      await _hotel.DeleteHotelRoom(hotelId, roomNumber);
       return NoContent();
     }
 
