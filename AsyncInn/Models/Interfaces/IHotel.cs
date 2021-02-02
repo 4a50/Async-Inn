@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AsyncInn.Models.APIs;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Models.Interfaces
@@ -13,7 +14,7 @@ namespace AsyncInn.Models.Interfaces
     //Read
     Task<List<HotelRoom>> GetAllRoomsInHotel(int hotelId);
     Task<HotelRoom> GetRoomDetails(int hotelId, int roomNumber);
-    Task<List<Hotel>> GetHotels();
+    Task<List<HotelDto>> GetHotels();
     //Update
     Task<Hotel> UpdateHotel(int ID, Hotel hotel);
 

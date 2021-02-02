@@ -22,10 +22,6 @@ namespace AsyncInn.Models
 
     //Navigation 
     public List<HotelRoom> HotelRoom { get; set; }
-    public Hotel()
-    {
-      HotelRoom = new List<HotelRoom>();
-    }
-
+    
   }
 }
