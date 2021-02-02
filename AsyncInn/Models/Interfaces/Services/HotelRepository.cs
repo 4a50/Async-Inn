@@ -1,5 +1,5 @@
 ﻿using AsyncInn.Data;
-using AsyncInn.Models.Apis;
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -89,22 +89,11 @@ namespace AsyncInn.Models.Interfaces.Services
     /// </summary>
     /// <param name="ID"></param>
     /// <returns></returns>
-    public async Task<HotelsDTO> GetHotel(int ID)
+    public async Task<Hotel> GetHotel(int ID)
     {
-      return await _context.Hotel.Select(hotel => new HotelsDTO
-      {
-        Id = hotel.Id,
-        Name = hotel.Name,
-        StreetAddress = hotel.StreetAddress,
-        City = hotel.City,
-        State = hotel.State,
-        Phone = hotel.Phone,
-        Rooms = hotel.HotelRoom.ToList()
 
-      }).FirstOrDefaultAsync(s => s.Id == ID);
-      
-      //Hotel hotel = await _context.Hotel.FindAsync(ID);
-      //return hotel;
+      Hotel hotel = await _context.Hotel.FindAsync(ID);
+      return hotel;
     }
     /// <summary>
     /// Get a list of all hotels
