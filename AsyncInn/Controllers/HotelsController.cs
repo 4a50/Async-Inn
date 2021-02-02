@@ -137,7 +137,7 @@ namespace AsyncInn.Controllers
     /// <param name="hotelRoom"></param>
     /// <returns></returns>
     [HttpPut]
-    [Route("/{hotelId}/Rooms/{roomNumber}")]
+    [Route("{hotelId}/Rooms/{roomNumber}")]
     public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, HotelRoom hotelRoom)
     {
       if (hotelId != hotelRoom.HotelID || roomNumber != hotelRoom.RoomNumber)
