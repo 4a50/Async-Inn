@@ -1,12 +1,12 @@
 ﻿using AsyncInn.Data;
-
+using AsyncInn.Models.APIs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
+using static AsyncInn.Models.APIs.HotelRoomDto;
 
 namespace AsyncInn.Models.Interfaces.Services
 {
@@ -27,9 +27,12 @@ namespace AsyncInn.Models.Interfaces.Services
     public async Task AddHotelRoom(int hotelID, int roomNumber)
     {      
       Hotel hotel = await _context.Hotel.FindAsync(hotelID);
-     
+      Room room = await _context.Room.FindAsync(2);
+
       HotelRoom newHotelRoom = new HotelRoom()
-      { PetFriendly = false,  Rate = 0.00M, HotelID = hotel.Id, RoomNumber = roomNumber, RoomID = 1};    
+      { PetFriendly = false, Rate = 0.00M, HotelID = hotel.Id, RoomNumber = roomNumber, RoomID = 1,
+      Room = room};    
+
       _context.Entry(newHotelRoom).State = EntityState.Added;
 
       await _context.SaveChangesAsync();
@@ -99,10 +102,47 @@ namespace AsyncInn.Models.Interfaces.Services
     /// Get a list of all hotels
     /// </summary>
     /// <returns></returns>
-    public async Task<List<Hotel>> GetHotels()
+    public async Task<List<HotelDto>> GetHotels()
     {
-      var hotels = await _context.Hotel.ToListAsync();
-      return hotels;
+      return await _context.Hotel //HotelModel
+     .Select(hotel => new HotelDto
+     {
+       Id = hotel.Id,
+       Name = hotel.Name,
+       StreetAddress = hotel.StreetAddress,
+       City = hotel.City,
+       State = hotel.State,
+       Phone = hotel.Phone,
+       //Withon the Hotel model, select the HotelRoom and make a DTO
+       Rooms = hotel.HotelRoom.Select(hr => new HotelRoomDto
+       {
+         HotelID = hr.HotelID,
+         RoomID = hr.RoomID,
+         Rate = hr.Rate,
+         PetFriendly = hr.PetFriendly,
+         RoomNumber = hr.RoomNumber,
+         //Within the hotel.hotelroom, make a room.dto
+         Room = new RoomDto
+         {
+           ID = hr.Room.ID,
+           Name = hr.Room.Name,
+           Layout = hr.Room.Layout,
+           Amenities = hr.Room.Amenities.Select(a => new AmenityDto
+           {
+             ID = a.Amenities.ID,
+             Name = a.Amenities.Name
+           }).ToList()
+           
+         }
+       }).ToList()
+
+
+
+     }).ToListAsync();
+
+
+      //var hotels = await _context.Hotel.ToListAsync();
+      //return hotels;
     }
     /// <summary>
     /// Updated the information for a given hotel.

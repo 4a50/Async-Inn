@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AsyncInn.Models.APIs;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Models.Interfaces
