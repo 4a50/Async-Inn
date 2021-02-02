@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AsyncInn.Models
 {
-  public class HotelDTO
+  public class Hotel
   {
 
     public int Id { get; set; }
