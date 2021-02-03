@@ -38,6 +38,9 @@ JP Jones
 AsyncInnDbContext is now handle through a dependency injection.  Each of the tables are now contolled by a repository via an interface.
 The repective controllers cannot directly access the database.
 
+## Change Log
+
+v.1 - CRUD Operations on all ERD Entities not complete.  Testing from Amenities is created and passing
 
 
 
