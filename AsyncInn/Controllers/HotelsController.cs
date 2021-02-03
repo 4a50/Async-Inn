@@ -1,4 +1,5 @@
 ﻿using AsyncInn.Models;
+using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -23,9 +24,11 @@ namespace AsyncInn.Controllers
     /// <returns></returns>
     //GET: api/Hotels
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Hotel>>> GetHotel()
+    public async Task<ActionResult<IEnumerable<HotelDto>>> GetHotel()
     {
-      return Ok(await _hotel.GetHotels());
+      List < HotelDto > hdt = await _hotel.GetHotels();
+      Debug.WriteLine($"HotelDTO Count: {hdt.Count}");
+      return Ok(hdt);
     }
     /// <summary>
     /// Gets the information for a given hotel
@@ -34,7 +37,7 @@ namespace AsyncInn.Controllers
     /// <returns></returns>
     //GET: api/Hotels/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Hotel>> GetHotel(int id)
+    public async Task<ActionResult<HotelDto>> GetHotel(int id)
     {
       var hotel = await _hotel.GetHotel(id);
 

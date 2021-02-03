@@ -1,4 +1,5 @@
 ﻿using AsyncInn.Models;
+using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -17,16 +18,9 @@ namespace AsyncInn.Controllers
       _amenity = amenity;
     }
 
-    // GET: api/Amenities
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Amenity>>> GetAmenities()
-    {
-      return Ok(await _amenity.GetAmenities());
-    }
-
     // GET: api/Amenities/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Amenity>> GetAmenity(int id)
+    public async Task<ActionResult<AmenityDto>> GetAmenity(int id)
     {
       var amenity = await _amenity.GetAmenity(id);
 
@@ -37,6 +31,13 @@ namespace AsyncInn.Controllers
 
       return amenity;
     }
+    // GET: api/Amenities
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Amenity>>> GetAmenities()
+    {
+      return Ok(await _amenity.GetAmenities());
+    }
+
 
     // PUT: api/Amenities/5
     // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -57,9 +58,10 @@ namespace AsyncInn.Controllers
     // To protect from overposting attacks, enable the specific properties you want to bind to, for
     // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
     [HttpPost]
-    public async Task<ActionResult<Amenity>> PostAmenity(Amenity amenity)
+    public async Task<ActionResult<AmenityDto>> PostAmenity(AmenityDto amenity)
     {
-      await _amenity.Create(amenity);
+      Amenity newAmenity = await _amenity.Create(amenity);
+
       return CreatedAtAction("GetAmenity", new { id = amenity.ID }, amenity);
     }
 

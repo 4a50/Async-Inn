@@ -7,9 +7,9 @@ namespace AsyncInn.Models.Interfaces
 
   public interface IAmenity
   {
-    Task<Amenity> Create(Amenity amenity);
-    Task<Amenity> GetAmenity(int ID);
-    Task<List<Amenity>> GetAmenities();
+    Task<Amenity> Create(AmenityDto amenity);
+    Task<AmenityDto> GetAmenity(int ID);
+    Task<List<AmenityDto>> GetAmenities();
     Task<Amenity> UpdateAmenity(int ID, Amenity amenity);
     Task DeleteAmenity(int ID);
   }
