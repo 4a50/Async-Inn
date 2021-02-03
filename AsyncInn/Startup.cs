@@ -1,6 +1,7 @@
 using AsyncInn.Data;
 using AsyncInn.Models.Interfaces;
 using AsyncInn.Models.Interfaces.Services;
+using Swashbuckle.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,12 +36,14 @@ namespace AsyncInn
       services.AddTransient<IAmenity, AmenityRepository>();
       services.AddTransient<IHotelRoom, HotelRoomRepository>();
       services.AddMvc();
+
+      services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo() {
+        Title = "Async Inn",
+        Version = "v1",
+      }));
       services.AddControllers().AddNewtonsoftJson(options =>
-      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);           
       services.AddControllers();
-
-
-
     }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,16 +52,19 @@ namespace AsyncInn
       {
         app.UseDeveloperExceptionPage();
       }
-
       app.UseRouting();
-
       app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapGet("/", async context =>
-              {
-                await context.Response.WriteAsync("Welcome the Async Inn");
-              });
+      {        
         endpoints.MapControllers();
+      });
+      app.UseSwagger(options =>
+      {
+        options.RouteTemplate = "/api/{documentName}/swagger.json";
+      });
+      app.UseSwaggerUI(options =>
+      {
+        options.SwaggerEndpoint("api/v1/swagger.json", "Async Inn");
+        options.RoutePrefix = "";
       });
     }
 
