@@ -1,4 +1,5 @@
 ﻿using AsyncInn.Models;
+using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace AsyncInn.Controllers
 
     // GET: api/Rooms/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Room>> GetRoom(int id)
+    public async Task<ActionResult<RoomDto>> GetRoom(int id)
     {
       var room = await _room.GetRoom(id);
 
@@ -42,7 +43,7 @@ namespace AsyncInn.Controllers
     // To protect from overposting attacks, enable the specific properties you want to bind to, for
     // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutRoom(int id, Room room)
+    public async Task<IActionResult> PutRoom(int id, RoomDto room)
     {
       if (id != room.ID)
       {
@@ -57,10 +58,10 @@ namespace AsyncInn.Controllers
     // To protect from overposting attacks, enable the specific properties you want to bind to, for
     // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
     [HttpPost]
-    public async Task<ActionResult<Room>> PostRoom(Room room)
+    public async Task<ActionResult<Room>> PostRoom(RoomDto room)
     {
       await _room.Create(room);
-      return CreatedAtAction("GetRoom", new { id = room.ID });
+      return CreatedAtAction("GetRoom", room);
     }
 
     // POST: api/Rooms/2/Amenity/3

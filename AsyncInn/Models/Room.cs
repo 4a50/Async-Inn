@@ -11,8 +11,8 @@ namespace AsyncInn.Models
     [Required]
     public int Layout { get; set; }
     //One (Room) to Many (Amenities)
-    public List<RoomAmenities> Amenities { get; set; }
-    public List<HotelRoom> HotelRoom { get; set; }
+    public List<RoomAmenity> Amenities { get; set; }
+    public List<Room> HotelRoom { get; set; }
     
   }
 }

@@ -9,7 +9,7 @@ namespace AsyncInn.Models
     [Required]
     public string Name { get; set; }
 
-    public List<RoomAmenities> Rooms { get; set; }
+    public List<RoomAmenity> Rooms { get; set; }
 
   }
 }

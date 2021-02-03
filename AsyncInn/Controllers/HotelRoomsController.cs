@@ -1,4 +1,5 @@
 ﻿using AsyncInn.Models;
+using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace AsyncInn.Controllers
 
     // GET: api/HotelRooms/5
     [HttpGet("{id}/{roomId}")]
-    public async Task<ActionResult<HotelRoom>> GetHotelRoom(int hotelId, int roomId)
+    public async Task<ActionResult<HotelRoomDto>> GetHotelRoom(int hotelId, int roomId)
     {
       var hotelRoom = await _hotelRoom.GetHotelRoom(hotelId, roomId);
 
@@ -55,10 +56,10 @@ namespace AsyncInn.Controllers
 
     // POST: api/HotelRooms    
     [HttpPost]
-    public async Task<ActionResult<HotelRoom>> PostHotelRoom(HotelRoom hotelRoom)
+    public async Task<ActionResult<HotelRoom>> PostHotelRoom(HotelRoomDto hotelRoom)
     {
       await _hotelRoom.Create(hotelRoom);
-      return CreatedAtAction("Get HotelRoom", new {id =  hotelRoom.HotelID });
+      return CreatedAtAction("Get HotelRoom", hotelRoom);
     }
     // DELETE: api/HotelRooms/5
     [HttpDelete("{hotelId}/{roomId}")]

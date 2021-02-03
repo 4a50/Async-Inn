@@ -8,7 +8,7 @@ namespace AsyncInn.Models.Interfaces
   {
     //Create
     Task<Hotel> Create(Hotel hotel);
-    Task<Hotel> GetHotel(int ID);
+    Task<HotelDto> GetHotel(int ID);
     Task AddHotelRoom(int hotelID, int roomNumber);
     Task<HotelRoom> UpdateHotelRoom(int hotelId, int roomNumber, HotelRoom hotelRoom);
     //Read

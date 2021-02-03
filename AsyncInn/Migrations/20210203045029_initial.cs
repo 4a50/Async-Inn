@@ -7,29 +7,16 @@ namespace AsyncInn.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Amenities",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Amenities", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Hotel",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    StreetAddress = table.Column<string>(nullable: false),
+                    StreetAddress = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: false),
                     State = table.Column<string>(nullable: false),
-                    Country = table.Column<string>(nullable: false),
+                    Country = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -44,11 +31,38 @@ namespace AsyncInn.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    Layout = table.Column<int>(nullable: false)
+                    Layout = table.Column<int>(nullable: false),
+                    RoomID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Room", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Room_Room_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Room",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Amenities",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: false),
+                    RoomID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Amenities", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Amenities_Room_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Room",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,12 +118,12 @@ namespace AsyncInn.Migrations
 
             migrationBuilder.InsertData(
                 table: "Amenities",
-                columns: new[] { "ID", "Name" },
+                columns: new[] { "ID", "Name", "RoomID" },
                 values: new object[,]
                 {
-                    { 1, "Replicator" },
-                    { 2, "Mini-Bar" },
-                    { 3, "Coffee Pot" }
+                    { 1, "Replicator", null },
+                    { 2, "Mini-Bar", null },
+                    { 3, "Coffee Pot", null }
                 });
 
             migrationBuilder.InsertData(
@@ -124,13 +138,23 @@ namespace AsyncInn.Migrations
 
             migrationBuilder.InsertData(
                 table: "Room",
-                columns: new[] { "ID", "Layout", "Name" },
+                columns: new[] { "ID", "Layout", "Name", "RoomID" },
                 values: new object[,]
                 {
-                    { 1, 0, "Ivo Shandor Suite" },
-                    { 2, 1, "Admiral Picard Ready Room" },
-                    { 3, 2, "Fox McCloud Suite" }
+                    { 1, 0, "Ivo Shandor Suite", null },
+                    { 2, 1, "Admiral Picard Ready Room", null },
+                    { 3, 2, "Fox McCloud Suite", null }
                 });
+
+            migrationBuilder.InsertData(
+                table: "HotelRoom",
+                columns: new[] { "RoomNumber", "HotelID", "PetFriendly", "Rate", "RoomID" },
+                values: new object[] { 1001, 1, true, 120.22m, 1 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Amenities_RoomID",
+                table: "Amenities",
+                column: "RoomID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotelRoom_HotelID",
@@ -140,6 +164,11 @@ namespace AsyncInn.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_HotelRoom_RoomID",
                 table: "HotelRoom",
+                column: "RoomID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Room_RoomID",
+                table: "Room",
                 column: "RoomID");
 
             migrationBuilder.CreateIndex(

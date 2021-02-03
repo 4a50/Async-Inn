@@ -56,7 +56,7 @@ namespace AsyncInn.Models.Interfaces.Services
     /// <returns></returns>
     public async Task DeleteHotel(int ID)
     {
-      Hotel hotel = await GetHotel(ID);
+      HotelDto hotel = await GetHotel(ID);
       _context.Remove(hotel).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
       await _context.SaveChangesAsync();
     }
@@ -92,11 +92,44 @@ namespace AsyncInn.Models.Interfaces.Services
     /// </summary>
     /// <param name="ID"></param>
     /// <returns></returns>
-    public async Task<Hotel> GetHotel(int ID)
+    public async Task<HotelDto> GetHotel(int ID)
     {
+      return await _context.Hotel //HotelModel
+     .Select(hotel => new HotelDto
+     {
+       Id = hotel.Id,
+       Name = hotel.Name,
+       StreetAddress = hotel.StreetAddress,
+       City = hotel.City,
+       State = hotel.State,
+       Phone = hotel.Phone,
+       //Within the Hotel model, select the HotelRoom and make a DTO
+       Rooms = hotel.HotelRoom.Select(hr => new HotelRoomDto
+       {
+         HotelID = hr.HotelID,
+         RoomID = hr.RoomID,
+         Rate = hr.Rate,
+         PetFriendly = hr.PetFriendly,
+         RoomNumber = hr.RoomNumber,
+         //Within the hotel.hotelroom, make a room.dto
+         Room = new RoomDto
+         {
+           ID = hr.Room.ID,
+           Name = hr.Room.Name,
+           Layout = hr.Room.Layout,
+           Amenities = hr.Room.Amenities.Select(a => new AmenityDto
+           {
+             ID = a.Amenities.ID,
+             Name = a.Amenities.Name
+           }).ToList()
 
-      Hotel hotel = await _context.Hotel.FindAsync(ID);
-      return hotel;
+         }
+       }).ToList()
+     }).FirstOrDefaultAsync(au => (au.Id == ID));
+
+
+      //Hotel hotel = await _context.Hotel.FindAsync(ID);
+      //return hotel;
     }
     /// <summary>
     /// Get a list of all hotels
@@ -113,7 +146,7 @@ namespace AsyncInn.Models.Interfaces.Services
        City = hotel.City,
        State = hotel.State,
        Phone = hotel.Phone,
-       //Withon the Hotel model, select the HotelRoom and make a DTO
+       //Within the Hotel model, select the HotelRoom and make a DTO
        Rooms = hotel.HotelRoom.Select(hr => new HotelRoomDto
        {
          HotelID = hr.HotelID,
@@ -135,9 +168,6 @@ namespace AsyncInn.Models.Interfaces.Services
            
          }
        }).ToList()
-
-
-
      }).ToListAsync();
 
 
