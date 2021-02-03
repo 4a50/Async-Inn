@@ -45,7 +45,7 @@ namespace AsyncInnTests
     {
       var repository = new AmenityRepository(_db);      
       var GetAmenity = await repository.GetAmenity(2);
-      Assert.Equal(GetAmenity.Name, "Mini-Bar");
+      Assert.Equal("Mini-Bar", GetAmenity.Name);
     }
   }
 }
