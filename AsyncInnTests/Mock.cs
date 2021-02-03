@@ -32,19 +32,16 @@ namespace AsyncInnTests
       
     }
 
-    protected async Task<Hotel> CreateAndSaveNewHotel()
+    protected async Task<Amenity> CreateAndSaveNewAmenity()
     {
-      var hotel = new Hotel
-      {
-        Name = "Hotel California",
-        City = "Nowhere",
-        State = "CA",
-        Phone = "(555) 867-5309"
+      var amenity = new Amenity
+      {       
+        Name = "Hot Chocolate"       
       };
-      _db.Hotel.Add(hotel);
+      _db.Amenities.Add(amenity);
       await _db.SaveChangesAsync();
-      Assert.NotEqual(0, hotel.Id);
-      return hotel;
+      Assert.NotEqual(0, amenity.ID);
+      return amenity;
     }
     protected async Task<Room> CreateAndSaveANewRoomType()
     {
