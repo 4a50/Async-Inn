@@ -20,7 +20,11 @@ namespace AsyncInn.Controllers
     {
       userService = service;
     }
-
+    /// <summary>
+    /// Registers a New User
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     [HttpPost("Register")]
     public async Task<ActionResult<UserDto>> Register(RegisterUser data)
     {
@@ -31,6 +35,11 @@ namespace AsyncInn.Controllers
       }
       return BadRequest(new ValidationProblemDetails(ModelState));
     }
+    /// <summary>
+    /// Authenticates a User Login
+    /// </summary>
+    /// <param name="login"></param>
+    /// <returns></returns>
     [HttpPost("Login")]
     public async Task<ActionResult<UserDto>> Login(LoginData login)
     {

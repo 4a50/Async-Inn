@@ -36,7 +36,12 @@ namespace AsyncInn.Models.Services
       }
       return null;
     }
-
+    /// <summary>
+    /// Registers a New User
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="modelState"></param>
+    /// <returns></returns>
     public async Task<UserDto> Register(RegisterUser data, ModelStateDictionary modelState)
     {
       //throw new NotImplementedException();

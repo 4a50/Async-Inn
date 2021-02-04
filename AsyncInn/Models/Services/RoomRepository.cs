@@ -26,7 +26,11 @@ namespace AsyncInn.Models.Interfaces.Services
       _context.Entry(roomAmenity).State = EntityState.Added;
       await _context.SaveChangesAsync();
     }
-
+    /// <summary>
+    /// Creates a New Room Type
+    /// </summary>
+    /// <param name="room"></param>
+    /// <returns></returns>
     public async Task<Room> Create(RoomDto room)
     {
       Room rm = new Room
@@ -39,7 +43,11 @@ namespace AsyncInn.Models.Interfaces.Services
       await _context.SaveChangesAsync();
       return rm;
     }
-
+    /// <summary>
+    /// Deletes a Room Type
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task DeleteRoom(int id)
     {
       RoomDto roomDto = await GetRoom(id);
@@ -52,7 +60,11 @@ namespace AsyncInn.Models.Interfaces.Services
       _context.Remove(room).State = EntityState.Deleted;
       await _context.SaveChangesAsync();
     }
-
+    /// <summary>
+    /// Get a Room type
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <returns></returns>
     public async Task<RoomDto> GetRoom(int Id)
     {
       return await _context.Room.Select(r => new RoomDto
@@ -67,7 +79,10 @@ namespace AsyncInn.Models.Interfaces.Services
         }).ToList()
       }).FirstOrDefaultAsync(x => (x.ID == Id));
     }
-
+    /// <summary>
+    /// Gets a list of all the room types
+    /// </summary>
+    /// <returns></returns>
     public async Task<List<RoomDto>> GetRooms()
     {
       return await _context.Room.Select(r => new RoomDto
@@ -82,14 +97,24 @@ namespace AsyncInn.Models.Interfaces.Services
         }).ToList()
       }).ToListAsync();
     }
-
+    /// <summary>
+    /// Removes an Amenity From a Room Type
+    /// </summary>
+    /// <param name="roomid"></param>
+    /// <param name="amenityid"></param>
+    /// <returns></returns>   
     public async Task RemoveAmenityFromRoom(int roomid, int amenityid)
     {
       var result = await _context.RoomAmenities.FirstOrDefaultAsync(x => x.RoomId == roomid && x.AmenityId == amenityid);
       _context.Entry(result).State = EntityState.Deleted;
       await _context.SaveChangesAsync();
     }
-    //PUT
+    /// <summary>
+    /// Updates a Room Type's information.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="room"></param>
+    /// <returns></returns>
     public async Task<RoomDto> UpdateRoom(int id, RoomDto room)
     {
       Room updatedRoom = new Room

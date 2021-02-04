@@ -14,7 +14,11 @@ namespace AsyncInn.Models.Interfaces.Services
     {
       _context = context;
     }
-
+    /// <summary>
+    /// CREATE: Creates a new Room for a Hotel
+    /// </summary>
+    /// <param name="hrDto"></param>
+    /// <returns></returns>
     public async Task<HotelRoom> Create(HotelRoomDto hrDto)
     {
       HotelRoom hotelRoom = new HotelRoom
@@ -30,7 +34,12 @@ namespace AsyncInn.Models.Interfaces.Services
       await _context.SaveChangesAsync();
       return hotelRoom;
     }
-
+    /// <summary>
+    /// GET: Get's an individual HotelRoom
+    /// </summary>
+    /// <param name="hotelid"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
     public async Task<HotelRoomDto> GetHotelRoom(int hotelid, int roomNumber)
     {
       //this will find the record for the hotel and RoomId.
@@ -55,19 +64,34 @@ namespace AsyncInn.Models.Interfaces.Services
           }
         }).FirstOrDefaultAsync(x => (x.HotelID == hotelid && x.RoomNumber == roomNumber));           
     }
-
+    /// <summary>
+    /// GET: Returns a list of all Rooms in a Hotel
+    /// </summary>
+    /// <returns></returns>
     public async Task<List<HotelRoom>> GetAllRoomsHotel()
     {
       var allRooms = await _context.HotelRoom.ToListAsync();
       return allRooms;
     }
-
+    /// <summary>
+    /// PUT: Updates a Hotel Room.
+    /// </summary>
+    /// <param name="hotelid"></param>
+    /// <param name="roomid"></param>
+    /// <param name="hotelRoom"></param>
+    /// <returns></returns>
     public async Task<HotelRoom> UpdateHotelRoom(int hotelid, int roomid, HotelRoom hotelRoom)
     {
       _context.Entry(hotelRoom).State = EntityState.Modified;
       await _context.SaveChangesAsync();
       return hotelRoom;
     }
+    /// <summary>
+    /// Delete: Deletes a hotel room
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
     public async Task DeleteHotelRoom(int hotelId, int roomNumber)
     {
       HotelRoomDto hrDto = await GetHotelRoom(hotelId, roomNumber);

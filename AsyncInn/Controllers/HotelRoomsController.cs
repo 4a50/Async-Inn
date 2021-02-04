@@ -20,14 +20,24 @@ namespace AsyncInn.Controllers
       _hotelRoom = hotelRoom;
     }
 
-    // GET: api/HotelRooms
+    /// <summary>
+    /// GET: api/HotelRooms
+    /// Get A List of all the Rooms in a hotel
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<HotelRoom>>> GetHotelRoom()
     {
       return Ok(await _hotelRoom.GetAllRoomsHotel());
     }
 
-    // GET: api/HotelRooms/5
+    /// <summary>
+    /// GET: api/HotelRooms/5
+    /// Get an individual Hotel Room in a Given Hotel using a RoomNumber
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <param name="roomId"></param>
+    /// <returns></returns>
     [HttpGet("{id}/{roomId}")]
     public async Task<ActionResult<HotelRoomDto>> GetHotelRoom(int hotelId, int roomId)
     {
@@ -41,7 +51,14 @@ namespace AsyncInn.Controllers
       return hotelRoom;
     }
 
-    // PUT: api/HotelRooms/5    
+    /// <summary>
+    /// PUT: api/HotelRooms/5    
+    /// Updates A Hotel Room given a HotelID and RoomNumber
+    /// </summary>
+    /// <param name="hotelid"></param>
+    /// <param name="roomid"></param>
+    /// <param name="hotelRoom"></param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutHotelRoom(int hotelid, int roomid, HotelRoom hotelRoom)
     {
@@ -54,7 +71,12 @@ namespace AsyncInn.Controllers
       return Ok(updatedRoom);
     }
 
-    // POST: api/HotelRooms    
+    /// <summary>
+    ///  api/HotelRooms    
+    ///  Creates a NEW Hotel Room for a given hotel
+    /// </summary>
+    /// <param name="hotelRoom"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult<HotelRoom>> PostHotelRoom(HotelRoomDto hotelRoom)
     {

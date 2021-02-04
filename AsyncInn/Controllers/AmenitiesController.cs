@@ -18,7 +18,12 @@ namespace AsyncInn.Controllers
       _amenity = amenity;
     }
 
-    // GET: api/Amenities/5
+    /// <summary>
+    ///  GET: api/Amenities/5
+    ///  Get Individual Amenity
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<AmenityDto>> GetAmenity(int id)
     {
@@ -31,7 +36,11 @@ namespace AsyncInn.Controllers
 
       return amenity;
     }
-    // GET: api/Amenities
+    /// <summary>
+    ///  GET: api/Amenities
+    ///  Returns a list of all amenities.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Amenity>>> GetAmenities()
     {
@@ -39,9 +48,13 @@ namespace AsyncInn.Controllers
     }
 
 
-    // PUT: api/Amenities/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+    /// <summary>
+    /// PUT: api/Amenities/5    
+    /// Updates an Amenity with an ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="amenity"></param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutAmenity(int id, Amenity amenity)
     {
@@ -54,9 +67,12 @@ namespace AsyncInn.Controllers
 
     }
 
-    // POST: api/Amenities
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+    /// <summary>
+    /// POST: api/Amenities
+    /// Creates a new Amenity
+    /// </summary>
+    /// <param name="amenity"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult<AmenityDto>> PostAmenity(AmenityDto amenity)
     {
@@ -65,7 +81,12 @@ namespace AsyncInn.Controllers
       return CreatedAtAction("GetAmenity", new { id = amenity.ID }, amenity);
     }
 
-    // DELETE: api/Amenities/5
+    /// <summary>
+    /// DELETE: api/Amenities/5
+    /// Deletes an Amenity from Amenity Table
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<ActionResult<Amenity>> DeleteAmenity(int id)
     {
