@@ -18,14 +18,23 @@ namespace AsyncInn.Controllers
       _room = room;
     }
 
-    // GET: api/Rooms
+    /// <summary>
+    /// GET: api/Rooms
+    /// Get a list of All Room Types
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Room>>> GetRoom()
     {
       return Ok(await _room.GetRooms());
     }
 
-    // GET: api/Rooms/5
+    /// <summary>
+    /// GET: api/Rooms/5
+    /// Gets information on an individual room.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<RoomDto>> GetRoom(int id)
     {
@@ -39,9 +48,13 @@ namespace AsyncInn.Controllers
       return room;
     }
 
-    // PUT: api/Rooms/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+    /// <summary>
+    /// PUT: api/Rooms/5
+    /// Updates and Exsisting Room Type given a proper ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="room"></param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutRoom(int id, RoomDto room)
     {
@@ -54,9 +67,13 @@ namespace AsyncInn.Controllers
       return Ok(updatedRoom);
     }
 
-    // POST: api/Rooms
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
+    /// <summary>
+    /// POST: api/Rooms
+    /// Creates a new Room Type
+    /// </summary>
+    /// <param name="room"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult<Room>> PostRoom(RoomDto room)
     {
@@ -64,9 +81,14 @@ namespace AsyncInn.Controllers
       return CreatedAtAction("GetRoom", room);
     }
 
-    // POST: api/Rooms/2/Amenity/3
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for
-    // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+    /// <summary>
+    /// POST: api/Rooms/2/Amenity/3
+    /// Add an Amenity to a Room.
+    /// </summary>
+    /// <param name="roomid"></param>
+    /// <param name="amenityId"></param>
+    /// <returns></returns>
+
     [HttpPost]
     [Route("{roomid}/Amenity/{amenityId}")]
     public async Task<ActionResult<Room>> AddAmenityToRoom(int roomid, int amenityId)
@@ -75,7 +97,13 @@ namespace AsyncInn.Controllers
       return NoContent();
     }
 
-    //DELETE: /api/Rooms/3/2
+    /// <summary>
+    /// DELETE: /api/Rooms/3/2
+    /// Deletes an Amenity from a room type
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="amenityId"></param>
+    /// <returns></returns>
     [HttpDelete("{id}/Amenity/{amenityId}")]
     public async Task<ActionResult<Room>> RemoveAmenityFromRoom(int id, int amenityId)
     {
@@ -83,7 +111,12 @@ namespace AsyncInn.Controllers
       return NoContent();
     }
 
-    // DELETE: api/Rooms/5
+    /// <summary>
+    /// DELETE: api/Rooms/5
+    /// Deletes a Room Type
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<ActionResult<Room>> DeleteRoom(int id)
     {

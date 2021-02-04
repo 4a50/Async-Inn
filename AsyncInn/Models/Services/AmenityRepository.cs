@@ -15,7 +15,11 @@ namespace AsyncInn.Models.Interfaces.Services
     {
       _context = context;
     }
-    //Post
+    /// <summary>
+    /// Creates a New Ammenity
+    /// </summary>
+    /// <param name="inboundAmenity"></param>
+    /// <returns></returns>
     public async Task<Amenity> Create(AmenityDto inboundAmenity)
     {
       Amenity amenity = new Amenity
@@ -26,7 +30,11 @@ namespace AsyncInn.Models.Interfaces.Services
       await _context.SaveChangesAsync();
       return amenity;
     }
-    //Delete
+    /// <summary>
+    /// Deletes an Ammenity
+    /// </summary>
+    /// <param name="ID"></param>
+    /// <returns></returns>
     public async Task DeleteAmenity(int ID)
     {     
       AmenityDto amenityDto = await GetAmenity(ID);
@@ -34,7 +42,10 @@ namespace AsyncInn.Models.Interfaces.Services
       _context.Remove(amenity).State = EntityState.Deleted;
       await _context.SaveChangesAsync();
     }
-    //Get
+    /// <summary>
+    /// Gets a list of Amenities
+    /// </summary>
+    /// <returns></returns>
     public async Task<List<AmenityDto>> GetAmenities()
     {
       return await _context.Amenities
@@ -44,14 +55,13 @@ namespace AsyncInn.Models.Interfaces.Services
           Name = amenity.Name
         }).ToListAsync();      
     }
-
+    /// <summary>
+    /// Gets an individual Amenity
+    /// </summary>
+    /// <param name="ID"></param>
+    /// <returns></returns>
     public async Task<AmenityDto> GetAmenity(int ID)
-    {
-      //Amenity amenity = await _context.Amenities.FindAsync(ID);
-      //var room = await _context.RoomAmenities.Where(x => x.AmenityId == ID)
-      //                                       .Include(x => x.Room)
-      //                                       .ToListAsync();
-      //amenity.Rooms = room;
+    {      
       return await _context.Amenities
         .Select(am => new AmenityDto
         {
@@ -60,7 +70,12 @@ namespace AsyncInn.Models.Interfaces.Services
         }).FirstOrDefaultAsync(i => (i.ID == ID));
           
     }
-    //PUT
+    /// <summary>
+    /// Updates an existing amenity
+    /// </summary>
+    /// <param name="ID"></param>
+    /// <param name="amenity"></param>
+    /// <returns></returns>
     public async Task<Amenity> UpdateAmenity(int ID, Amenity amenity)
     {
       _context.Entry(amenity).State = EntityState.Modified;
