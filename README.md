@@ -1,50 +1,171 @@
 # Async Inn
 
-## Author
+## We welcome you at any time!
 
-JP Jones
-## Date
+---
 
-1/26/21
+### Check us out!
 
-![Lab-11 ERD](./assets/ERD_11.png)
+[https://asyncinn20210203102731.azurewebsites.net/](https://asyncinn20210203102731.azurewebsites.net/)
 
-## Tables
+---
+## Web Application
+***[Explain your app, should be at least a paragraph. What does it do? Why should I use? Sell your product!]***
 
-### Room - Table
-(Hotel/Room) 1:Many  - Many Hotels can have this room
-(Room/Amenities) 1:Many - One room can have many Amenities
+This web application API demonstrated the use of SQL Database management through .NET Core.  It utilizes Entity Framework Core, ASP.NET 3.1 and MVC Framework.
 
-### HotelRoom - Pure Join Table
+An interface is provided utilizing Swagger to utilize all the CRUD functionality.  User can manage hotels, rooms, and ammenities that are included therein.
 
-(Room) Many:1 - A Hotel can have many rooms
-(Hotel) Many:1 - One hotel can have many rooms
+User Authentication is also provided to a secure way to edit and perform required maintence and retrieval of information.
 
-###  Hotel - Table
+---
 
-(Hotel/Room) 1:Many - A Hotel can have many rooms
+## Tools Used
+Microsoft Visual Studio Community 2019 (Version 16.8.3)
 
-### RoomAmenities - Pure Join Table
+- Azure Web Services 
+- C#
+- ASP.Net Core 3.1
+- Entity Framework
+- MVC
+- xUnit 
+- ASP.NET Core Swagger
 
-(Room) Many:1 - 1 Room can have many amenities
-(Amenities) Many:1 - Many Amenities can be in one room
+---
 
-### Amenities - Table
+## Recent Updates
 
-(Room/Amenities) 1:Many - Many Rooms can have and amenity
+#### V 1.0
 
-## Architecture
+*Initial Deployment* - 2 Jan 2021
 
-AsyncInnDbContext is now handle through a dependency injection.  Each of the tables are now contolled by a repository via an interface.
-The repective controllers cannot directly access the database.
+#### V 2.0
+
+*Added User Authentication* - 3 Jan 2021
+
+---
+
+## Getting Started
+
+Clone this repository to your local machine.
+
+```
+$ git clone https://github.com/YourRepo/YourProject.git
+```
+Once downloaded.  Open in Visual Studio. 
+
+Open the **Package Manager Console** 
+
+Ensure all the packages are installed.
+
+
+You will be requird to perform an initial migration.
+
+``dotnet build``
+
+Perform the initial migration
+
+``Add-Migration Initial``
+
+``update-database``
+
+Individual setting can be customized in the `appsettings.json` file.
+
+The database has now been created.  You can run the application using **IIS Express**
+
+Unit Testing has been included in the **AsyncImmTests** project.
+``..\AsyncInnTests``
+
+---
+
+## Usage
+CRUD Operations are availble for demonstration from the **Swagger ** powered UI page.
+
+![Swager UI Page](./assets/swagUI.png)
+
+### Creating Adding A New Hotel
+![Add Hotel](./assets/HotelAdd.png)
+
+---
+
+## Data Flow (Frontend, Backend, REST API)
+***[Add a clean and clear explanation of what the data flow is. Walk me through it.]***
+![Data Flow Diagram](/assets/img/flowchart.png)
+
+---
+## Data Model
+
+### Overall Project Schema
+Stand Alone Tables are *Room* (Types), *Hotel*, and *Ammenities*.  *Room*(Types) and *Hotel* are joined by a Joined Table with payload *Room*(Types).  *Room* and *Amenities* are joined by *AmenitiesRoom*
+
+![Database Schema](./assets/ERD_11.png)
+
+---
+## Model Properties and Requirements
+
+### Amenity (Table)
+
+| Parameter | Type | Required |
+| --- | --- | --- |
+| ID  | int | YES |
+| Name | string | NO |
+
+### Hotel (Table)
+
+| Parameter | Type | Required |
+| --- | --- | --- |
+| ID | int | YES |
+| Name | string | YES |
+| StreetAddress | string | YES |
+| City | string | YES |
+| State | string | YES |
+| Phone | string | YES |
+
+---
+
+### HotelRoom (Join Table With Payload)
+
+| Parameter | Type | Required |
+| --- | --- | --- |
+| HotelID | int | YES |
+| RoomNumber | string | YES |
+| Rate | string | NO |
+| PetFriendly | string | NO |
+| RoomID | string | NO |
+
+### Register User (Table)
+
+| Parameter | Type | Required |
+| --- | --- | --- |
+| UserName | string | YES |
+| Password | string | YES |
+| Email | string | YES |
+| PhoneNumber | string | NO |
+
+### Room (Table)
+
+| Parameter | Type | Required |
+| --- | --- | --- |
+| ID | int | NO |
+| Name | string | YES |
+| Rate | string | NO |
+| Layout | string | NO |
 
 ## Change Log
 
-v.1 - CRUD Operations on all ERD Entities not complete.  Testing from Amenities is created and passing
+**1.0** Inital Commit - CRUD Operation Not Complete. - 1 FEB 2021
 
+**1.1** Fixed CRUD Operations - 2 FEB 2021
 
+**1.1.1** Updated README - 2 FEB 2021
 
+**2.0**  Added User Registration/Authentication
 
+---
 
+## Authors
+JP Jones
 
+---
 
+## License: MIT

@@ -17,7 +17,12 @@ namespace AsyncInn.Models.Services
     {
       userManager = manager;
     }
-
+    /// <summary>
+    /// Authenticates User Name and Password with values stored in the database
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns></returns>
     public async Task<UserDto> Authenticate(string username, string password)
     {
       var user = await userManager.FindByNameAsync(username);
