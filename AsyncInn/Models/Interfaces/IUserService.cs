@@ -1,4 +1,5 @@
 ﻿using AsyncInn.Models.APIs;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,9 @@ namespace AsyncInn.Models.Interfaces
 {
   public interface IUserService
   {
-    public Task<ApplicationUser> Register(RegisterUser data);
+    public Task<UserDto> Register(RegisterUser data, ModelStateDictionary modelState);
+    public Task<UserDto> Authenticate(string username, string password);
+  
   }
+
 }

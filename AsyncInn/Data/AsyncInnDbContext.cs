@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AsyncInn.Data
 {
-  public class AsyncInnDbContext : IdentityDbContext
+  public class AsyncInnDbContext : IdentityDbContext<ApplicationUser>
   {
     public DbSet<Hotel> Hotel { get; set; }
     public DbSet<Room> Room { get; set; }

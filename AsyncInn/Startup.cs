@@ -34,18 +34,18 @@ namespace AsyncInn
         string connectionString = Configuration.GetConnectionString("DefaultConnection");
         options.UseSqlServer(connectionString);
       });
-
-      services.AddTransient<IRoom, RoomRepository>();
-      services.AddTransient<IHotel, HotelRepository>();
-      services.AddTransient<IAmenity, AmenityRepository>();
-      services.AddTransient<IHotelRoom, HotelRoomRepository>();
-      services.AddMvc();
       services.AddIdentity<ApplicationUser, IdentityRole>(options =>
       {
         options.User.RequireUniqueEmail = true;
       })
         .AddEntityFrameworkStores<AsyncInnDbContext>();
       services.AddTransient<IUserService, IdentityUserService>();
+
+      services.AddTransient<IRoom, RoomRepository>();
+      services.AddTransient<IHotel, HotelRepository>();
+      services.AddTransient<IAmenity, AmenityRepository>();
+      services.AddTransient<IHotelRoom, HotelRoomRepository>();
+      services.AddMvc();
 
       
       
