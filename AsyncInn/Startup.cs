@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AsyncInn.Models;
+using Microsoft.AspNetCore.Identity;
+using AsyncInn.Models.Services;
 
 namespace AsyncInn
 {
@@ -25,7 +28,8 @@ namespace AsyncInn
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddDbContext<AsyncInnDbContext>(options =>
-      {
+      {     
+        
         // Our DATABASE_URL from js days
         string connectionString = Configuration.GetConnectionString("DefaultConnection");
         options.UseSqlServer(connectionString);
@@ -36,7 +40,16 @@ namespace AsyncInn
       services.AddTransient<IAmenity, AmenityRepository>();
       services.AddTransient<IHotelRoom, HotelRoomRepository>();
       services.AddMvc();
+      services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+      {
+        options.User.RequireUniqueEmail = true;
+      })
+        .AddEntityFrameworkStores<AsyncInnDbContext>();
+      services.AddTransient<IUserService, IdentityUserService>();
 
+      
+      
+      //Swagger 
       services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo() {
         Title = "Async Inn",
         Version = "v1",
