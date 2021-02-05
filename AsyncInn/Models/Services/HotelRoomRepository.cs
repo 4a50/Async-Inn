@@ -27,9 +27,9 @@ namespace AsyncInn.Models.Interfaces.Services
         RoomID = hrDto.RoomID,
         RoomNumber = hrDto.RoomNumber,
         Rate = hrDto.Rate,
-        PetFriendly = hrDto.PetFriendly,        
+        PetFriendly = hrDto.PetFriendly,
       };
-      
+
       _context.Entry(hotelRoom).State = EntityState.Added;
       await _context.SaveChangesAsync();
       return hotelRoom;
@@ -62,7 +62,7 @@ namespace AsyncInn.Models.Interfaces.Services
               Name = a.Amenities.Name
             }).ToList()
           }
-        }).FirstOrDefaultAsync(x => (x.HotelID == hotelid && x.RoomNumber == roomNumber));           
+        }).FirstOrDefaultAsync(x => (x.HotelID == hotelid && x.RoomNumber == roomNumber));
     }
     /// <summary>
     /// GET: Returns a list of all Rooms in a Hotel

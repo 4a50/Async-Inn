@@ -1,17 +1,15 @@
-﻿using AsyncInn.Models;
-using AsyncInn.Models.APIs;
+﻿using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+
+  //TODO: PolicyIssues
   public class UsersController : ControllerBase
   {
     private IUserService userService;
@@ -21,14 +19,34 @@ namespace AsyncInn.Controllers
       userService = service;
     }
     /// <summary>
-    /// Registers a New User
+    /// Registers a New User with any role.
+    /// REQUIRES: UserAdd Policy
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    [HttpPost("Register")]
-    public async Task<ActionResult<UserDto>> Register(RegisterUser data)
+    [Authorize(Policy = "useradd")]
+    [HttpPost("RegisterAll")]
+    public async Task<ActionResult<UserDto>> RegisterAll(RegisterUser data)
     {
       var user = await userService.Register(data, this.ModelState);
+      if (ModelState.IsValid)
+      {
+        return user;
+      }
+      return BadRequest(new ValidationProblemDetails(ModelState));
+    }
+    
+    [Authorize(Policy = "agentadd")]
+    [HttpPost("RegisterAgent")]
+    public async Task<ActionResult<UserDto>> RegisterAgent(RegisterUser data)
+    {
+      
+      if (data.Roles.Contains("propertymanager") || data.Roles.Contains("districtmanager")){
+        return BadRequest("Roles are not authorized at this level.");
+
+      }
+        var user = await userService.Register(data, this.ModelState);
+      
       if (ModelState.IsValid)
       {
         return user;
@@ -49,9 +67,14 @@ namespace AsyncInn.Controllers
         return user;
       }
       return Unauthorized();
-
-      
     }
+   // [Authorize(Roles ="districtmanager")]
+    [HttpGet("Me")]
+    public async Task<ActionResult<UserDto>> Me()
+    {
+      return await userService.GetUser(this.User);
+    }
+
 
 
   }

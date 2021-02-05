@@ -1,6 +1,4 @@
-using AsyncInn.Models;
 using AsyncInn.Models.Interfaces.Services;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -14,7 +12,7 @@ namespace AsyncInnTests
     [Fact]
     public async Task Can_Add_A_New_Amenity()
     {
-      var amenity = await CreateAndSaveNewAmenity();     
+      var amenity = await CreateAndSaveNewAmenity();
       var repository = new AmenityRepository(_db);
 
       var retrievedAmenity = await repository.GetAmenities();
@@ -24,7 +22,7 @@ namespace AsyncInnTests
     [Fact]
     public async Task Can_Delete_A_Amenity()
     {
-      var amenity = await CreateAndSaveNewAmenity();      
+      var amenity = await CreateAndSaveNewAmenity();
       var repository = new AmenityRepository(_db);
       await repository.DeleteAmenity(1);
       var retAmenity = await repository.GetAmenities();
@@ -43,7 +41,7 @@ namespace AsyncInnTests
     [Fact]
     public async Task Can_Get_An_Amenity()
     {
-      var repository = new AmenityRepository(_db);      
+      var repository = new AmenityRepository(_db);
       var GetAmenity = await repository.GetAmenity(2);
       Assert.Equal("Mini-Bar", GetAmenity.Name);
     }

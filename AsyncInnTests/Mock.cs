@@ -24,19 +24,19 @@ namespace AsyncInnTests
         .Options);
       _db.Database.EnsureCreated();
     }
-    
+
     public void Dispose()
     {
       _db?.Dispose();
       _connection?.Dispose();
-      
+
     }
 
     protected async Task<Amenity> CreateAndSaveNewAmenity()
     {
       var amenity = new Amenity
-      {       
-        Name = "Hot Chocolate"       
+      {
+        Name = "Hot Chocolate"
       };
       _db.Amenities.Add(amenity);
       await _db.SaveChangesAsync();
