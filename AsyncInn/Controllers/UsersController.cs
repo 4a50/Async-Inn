@@ -68,7 +68,7 @@ namespace AsyncInn.Controllers
       }
       return Unauthorized();
     }
-    [Authorize(Roles ="Administrator")]
+   // [Authorize(Roles ="districtmanager")]
     [HttpGet("Me")]
     public async Task<ActionResult<UserDto>> Me()
     {

@@ -84,13 +84,15 @@ namespace AsyncInn.Models.Services
 
       return null;
     }
+    //TODO: Null Reference Exception when running 'Me' method
     public async Task<UserDto> GetUser(ClaimsPrincipal principal)
     {
       var user = await userManager.GetUserAsync(principal);
       return new UserDto
       {
         Id = user.Id,
-        UserName = user.UserName
+        UserName = user.UserName,
+         Token = await tokenService.GetToken(user, System.TimeSpan.FromMinutes(20))
       };
     }
   }
