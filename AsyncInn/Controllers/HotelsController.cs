@@ -26,7 +26,7 @@ namespace AsyncInn.Controllers
     [HttpGet]
     public async Task<ActionResult<IEnumerable<HotelDto>>> GetHotel()
     {
-      List < HotelDto > hdt = await _hotel.GetHotels();
+      List<HotelDto> hdt = await _hotel.GetHotels();
       Debug.WriteLine($"HotelDTO Count: {hdt.Count}");
       return Ok(hdt);
     }
@@ -57,7 +57,7 @@ namespace AsyncInn.Controllers
     [HttpGet]
     [Route("{hotelId}/Rooms")]
     public async Task<ActionResult<Hotel>> GetAllRoomsInHotel(int hotelId)
-    {      
+    {
       return Ok(await _hotel.GetAllRoomsInHotel(hotelId));
     }
     /// <summary>
@@ -99,7 +99,7 @@ namespace AsyncInn.Controllers
     /// <param name="hotelID"></param>
     /// <param name="roomNumber"></param>
     /// <returns></returns>
-    
+
     // Post: api/Hotels/1/Rooms/3
     [HttpPost]
     [Route("{hotelID}/Rooms/{roomNumber}")]
@@ -145,10 +145,11 @@ namespace AsyncInn.Controllers
     {
       if (hotelId != hotelRoom.HotelID || roomNumber != hotelRoom.RoomNumber)
       {
-        return BadRequest();      }
-      
+        return BadRequest();
+      }
+
       var updatedHotelRoom = await _hotel.UpdateHotelRoom(hotelId, roomNumber, hotelRoom);
-      return Ok(updatedHotelRoom);      
+      return Ok(updatedHotelRoom);
     }
     /// <summary>
     /// Deletes a Hotel Room
@@ -158,7 +159,7 @@ namespace AsyncInn.Controllers
     /// <returns></returns>
     [HttpDelete]
     [Route("{hotelId}/Rooms/{roomNumber}")]
-    public async Task<ActionResult<HotelRoom>> DeleteHotelRoom (int hotelId, int roomNumber)
+    public async Task<ActionResult<HotelRoom>> DeleteHotelRoom(int hotelId, int roomNumber)
     {
       await _hotel.DeleteHotelRoom(hotelId, roomNumber);
       return NoContent();

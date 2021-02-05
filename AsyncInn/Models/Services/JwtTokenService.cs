@@ -2,8 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +33,7 @@ namespace AsyncInn.Models.Services
         ValidateAudience = false,
       };
     }
+
     /// <summary>
     /// Retrieves the JWT Security Key, return an exception if none are found.
     /// </summary>
@@ -45,6 +45,20 @@ namespace AsyncInn.Models.Services
       if (secret == null) { throw new InvalidOperationException("No JWT Secret Found"); }
       var secretBytes = Encoding.UTF8.GetBytes(secret);
       return new SymmetricSecurityKey(secretBytes);
+    }
+    public async Task<string> GetToken(ApplicationUser user, TimeSpan expiresIn)
+    {
+      var principal = await signInManager.CreateUserPrincipalAsync(user);
+      if (principal == null) { return null; }
+
+      var signingKey = GetSecurityKey(configuration);
+      var token = new JwtSecurityToken(
+        expires: DateTime.UtcNow + expiresIn,
+        signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+        claims: principal.Claims
+       );
+
+      return new JwtSecurityTokenHandler().WriteToken(token);
     }
   }
 }

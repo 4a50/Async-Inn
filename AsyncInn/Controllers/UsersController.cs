@@ -1,11 +1,7 @@
-﻿using AsyncInn.Models;
-using AsyncInn.Models.APIs;
+﻿using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Controllers
@@ -49,9 +45,14 @@ namespace AsyncInn.Controllers
         return user;
       }
       return Unauthorized();
-
-      
     }
+    [Authorize(Roles ="Administrator")]
+    [HttpGet("Me")]
+    public async Task<ActionResult<UserDto>> Me()
+    {
+      return await userService.GetUser(this.User);
+    }
+
 
 
   }

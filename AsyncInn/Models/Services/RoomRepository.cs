@@ -124,12 +124,12 @@ namespace AsyncInn.Models.Interfaces.Services
         Layout = room.Layout
 
       };
-      
+
       _context.Entry(updatedRoom).State = EntityState.Modified;
       await _context.SaveChangesAsync();
       return room;
     }
 
-    
+
   }
 }

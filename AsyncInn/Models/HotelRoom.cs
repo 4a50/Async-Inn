@@ -1,9 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AsyncInn.Models
+﻿namespace AsyncInn.Models
 {
   public class HotelRoom
-  {    
+  {
     public int HotelID { get; set; }
     public int RoomNumber { get; set; }
     public int RoomID { get; set; }

@@ -2,9 +2,7 @@
 using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Models.Services
@@ -33,13 +31,14 @@ namespace AsyncInn.Models.Services
         return new UserDto
         {
           Id = user.Id,
-          UserName = user.UserName
+          UserName = user.UserName,
+          Token = await tokenService.GetToken(user, System.TimeSpan.FromMinutes(15))
         };
       }
       return null;
     }
     /// <summary>
-    /// Registers a New User
+    /// Registers a New User and returns a new token
     /// </summary>
     /// <param name="data"></param>
     /// <param name="modelState"></param>
@@ -59,10 +58,14 @@ namespace AsyncInn.Models.Services
 
       if (result.Succeeded)
       {
+        // Because we have a "Good" user, let's add them to their proper role
+        await userManager.AddToRolesAsync(user, data.Roles);
         return new UserDto
         {
           Id = user.Id,
-          UserName = user.UserName
+          UserName = user.UserName,
+          Token = await tokenService.GetToken(user, System.TimeSpan.FromMinutes(15)),
+          Roles = await userManager.GetRolesAsync(user)
         };
       }
 
@@ -80,6 +83,15 @@ namespace AsyncInn.Models.Services
       }
 
       return null;
-    }    
+    }
+    public async Task<UserDto> GetUser(ClaimsPrincipal principal)
+    {
+      var user = await userManager.GetUserAsync(principal);
+      return new UserDto
+      {
+        Id = user.Id,
+        UserName = user.UserName
+      };
+    }
   }
 }

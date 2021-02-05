@@ -1,18 +1,16 @@
 using AsyncInn.Data;
+using AsyncInn.Models;
 using AsyncInn.Models.Interfaces;
 using AsyncInn.Models.Interfaces.Services;
-using Swashbuckle.AspNetCore;
+using AsyncInn.Models.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AsyncInn.Models;
-using Microsoft.AspNetCore.Identity;
-using AsyncInn.Models.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 namespace AsyncInn
@@ -30,8 +28,8 @@ namespace AsyncInn
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddDbContext<AsyncInnDbContext>(options =>
-      {     
-        
+      {
+
         // Our DATABASE_URL from js days
         string connectionString = Configuration.GetConnectionString("DefaultConnection");
         options.UseSqlServer(connectionString);
@@ -54,8 +52,14 @@ namespace AsyncInn
         {
           options.TokenValidationParameters = JwtTokenService.GetValidationParameters(Configuration);
         });
+      // Add Policies
+      services.AddAuthorization(options =>
+      {
+        options.AddPolicy("create", policy => policy.RequireClaim("permissions", "create"));
+        options.AddPolicy("update", policy => policy.RequireClaim("permissions", "update"));
+        options.AddPolicy("delete", policy => policy.RequireClaim("permissions", "delete"));
+      });
 
-      
       services.AddTransient<IUserService, IdentityUserService>();
       services.AddTransient<IRoom, RoomRepository>();
       services.AddTransient<IHotel, HotelRepository>();
@@ -63,15 +67,16 @@ namespace AsyncInn
       services.AddTransient<IHotelRoom, HotelRoomRepository>();
       services.AddMvc();
 
-      
-      
+
+
       //Swagger 
-      services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo() {
+      services.AddSwaggerGen(options => options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
+      {
         Title = "Async Inn",
         Version = "v1",
       }));
       services.AddControllers().AddNewtonsoftJson(options =>
-      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);           
+      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
       services.AddControllers();
     }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,21 +87,22 @@ namespace AsyncInn
         app.UseDeveloperExceptionPage();
       }
       app.UseRouting();
-      app.UseEndpoints(endpoints =>
-      {        
-        endpoints.MapControllers();
-      });
       app.UseSwagger(options =>
       {
         options.RouteTemplate = "/api/{documentName}/swagger.json";
       });
+      app.UseAuthentication();
+      app.UseAuthorization();
+
       app.UseSwaggerUI(options =>
       {
         options.SwaggerEndpoint("api/v1/swagger.json", "Async Inn");
         options.RoutePrefix = "";
       });
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapControllers();
+      });
     }
-
-
   }
 }
