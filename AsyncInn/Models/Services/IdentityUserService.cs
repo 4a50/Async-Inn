@@ -12,10 +12,12 @@ namespace AsyncInn.Models.Services
   public class IdentityUserService : IUserService
   {
     private UserManager<ApplicationUser> userManager;
+    private JwtTokenService tokenService;
 
-    public IdentityUserService(UserManager<ApplicationUser> manager)
+    public IdentityUserService(UserManager<ApplicationUser> manager, JwtTokenService jwtTokenService)
     {
       userManager = manager;
+      tokenService = jwtTokenService;
     }
     /// <summary>
     /// Authenticates User Name and Password with values stored in the database

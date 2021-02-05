@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using AsyncInn.Models;
 using Microsoft.AspNetCore.Identity;
 using AsyncInn.Models.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 namespace AsyncInn
 {
@@ -39,8 +41,22 @@ namespace AsyncInn
         options.User.RequireUniqueEmail = true;
       })
         .AddEntityFrameworkStores<AsyncInnDbContext>();
-      services.AddTransient<IUserService, IdentityUserService>();
 
+      //JWT Registration
+      services.AddScoped<JwtTokenService>();
+      services.AddAuthentication(options =>
+      {
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      })
+        .AddJwtBearer(options =>
+        {
+          options.TokenValidationParameters = JwtTokenService.GetValidationParameters(Configuration);
+        });
+
+      
+      services.AddTransient<IUserService, IdentityUserService>();
       services.AddTransient<IRoom, RoomRepository>();
       services.AddTransient<IHotel, HotelRepository>();
       services.AddTransient<IAmenity, AmenityRepository>();
