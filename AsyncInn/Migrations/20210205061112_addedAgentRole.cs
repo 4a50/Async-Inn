@@ -2,7 +2,7 @@
 
 namespace AsyncInn.Migrations
 {
-    public partial class AddedIdent : Migration
+    public partial class addedAgentRole : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

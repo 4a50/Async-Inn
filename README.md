@@ -43,6 +43,10 @@ Microsoft Visual Studio Community 2019 (Version 16.8.3)
 
 *Added User Authentication* - 3 Jan 2021
 
+#### V 3.0
+
+*Added User Roles and Policies*
+
 ---
 
 ## Getting Started
@@ -77,13 +81,38 @@ Unit Testing has been included in the **AsyncImmTests** project.
 ``..\AsyncInnTests``
 
 ---
+## Roles and Policies
 
+### Roles with Policy Assignments
+
+| Role | Policy |
+| --- | --- |
+| District Manager| A, B, C, UserAdd, AgentAdd|
+| Property Manager| B, C, AgentAdd|
+|Agent|C|
+|Anonymous| Able to view all *Get* Requests|
+
+### Policy Legend
+
+|Policy Code|Description|
+| --- | --- |
+|A| Full CRUD access to all entities. 
+|B| Can add/update/Read new HotelRooms to hotels.
+||Add Amenities to Rooms|
+|C|Update/Read HotelRoom.  
+||Add/Delete Amenities to Rooms|
+|AgentAdd|Can add New Agents Only|
+|UserAdd| Can Add District Manager and Property Managers|
+
+---
 ## Usage
-CRUD Operations are availble for demonstration from the **Swagger ** powered UI page.
 
-![Swager UI Page](./assets/swagUI.png)
+CRUD Operations are available for demonstration from the **Swagger** powered UI page.
 
-### Creating Adding A New Hotel
+![Swagger UI Page](./assets/swagUI.png)
+
+
+### Creating/Adding A New Hotel
 ![Add Hotel](./assets/HotelAdd.png)
 
 ---
@@ -96,7 +125,7 @@ CRUD Operations are availble for demonstration from the **Swagger ** powered UI 
 ## Data Model
 
 ### Overall Project Schema
-Stand Alone Tables are *Room* (Types), *Hotel*, and *Ammenities*.  *Room*(Types) and *Hotel* are joined by a Joined Table with payload *Room*(Types).  *Room* and *Amenities* are joined by *AmenitiesRoom*
+Stand Alone Tables are *Room* (Types), *Hotel*, and *Amenities*.  *Room*(Types) and *Hotel* are joined by a Joined Table with payload *Room*(Types).  *Room* and *Amenities* are joined by *AmenitiesRoom*
 
 ![Database Schema](./assets/ERD_11.png)
 

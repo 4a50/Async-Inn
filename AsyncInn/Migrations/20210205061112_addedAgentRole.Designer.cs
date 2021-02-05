@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AsyncInn.Migrations
 {
     [DbContext(typeof(AsyncInnDbContext))]
-    [Migration("20210205033641_AddedPolicies")]
-    partial class AddedPolicies
+    [Migration("20210205061112_addedAgentRole")]
+    partial class addedAgentRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -309,24 +309,24 @@ namespace AsyncInn.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "administrator",
+                            Id = "districtmanager",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
+                            Name = "districtmanager",
+                            NormalizedName = "DISTRICTMANAGER"
                         },
                         new
                         {
-                            Id = "editor",
+                            Id = "propertymanager",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Editor",
-                            NormalizedName = "EDITOR"
+                            Name = "propertymanager",
+                            NormalizedName = "PROPERTYMANAGER"
                         },
                         new
                         {
-                            Id = "writer",
+                            Id = "agent",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Writer",
-                            NormalizedName = "WRITER"
+                            Name = "agent",
+                            NormalizedName = "AGENT"
                         });
                 });
 
@@ -358,43 +358,64 @@ namespace AsyncInn.Migrations
                         {
                             Id = 1,
                             ClaimType = "permissions",
-                            ClaimValue = "create",
-                            RoleId = "administrator"
+                            ClaimValue = "a",
+                            RoleId = "districtmanager"
                         },
                         new
                         {
                             Id = 2,
                             ClaimType = "permissions",
-                            ClaimValue = "update",
-                            RoleId = "administrator"
+                            ClaimValue = "b",
+                            RoleId = "districtmanager"
                         },
                         new
                         {
                             Id = 3,
                             ClaimType = "permissions",
-                            ClaimValue = "delete",
-                            RoleId = "administrator"
+                            ClaimValue = "c",
+                            RoleId = "districtmanager"
                         },
                         new
                         {
                             Id = 4,
                             ClaimType = "permissions",
-                            ClaimValue = "create",
-                            RoleId = "editor"
+                            ClaimValue = "agentadd",
+                            RoleId = "districtmanager"
                         },
                         new
                         {
                             Id = 5,
                             ClaimType = "permissions",
-                            ClaimValue = "update",
-                            RoleId = "editor"
+                            ClaimValue = "useradd",
+                            RoleId = "districtmanager"
                         },
                         new
                         {
                             Id = 6,
                             ClaimType = "permissions",
-                            ClaimValue = "create",
-                            RoleId = "writer"
+                            ClaimValue = "b",
+                            RoleId = "propertymanager"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClaimType = "permissions",
+                            ClaimValue = "c",
+                            RoleId = "propertymanager"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClaimType = "permissions",
+                            ClaimValue = "agentadd",
+                            RoleId = "propertymanager"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ClaimType = "permissions",
+                            ClaimValue = "c",
+                            RoleId = "agent"
                         });
                 });
 

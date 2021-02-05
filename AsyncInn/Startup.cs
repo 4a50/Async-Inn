@@ -55,9 +55,12 @@ namespace AsyncInn
       // Add Policies
       services.AddAuthorization(options =>
       {
-        options.AddPolicy("create", policy => policy.RequireClaim("permissions", "create"));
-        options.AddPolicy("update", policy => policy.RequireClaim("permissions", "update"));
-        options.AddPolicy("delete", policy => policy.RequireClaim("permissions", "delete"));
+        options.AddPolicy("useradd", policy => policy.RequireClaim("permissions", "useradd"));
+        options.AddPolicy("agentadd", policy => policy.RequireClaim("permissions", "agentadd"));
+        options.AddPolicy("agent", policy => policy.RequireClaim("permissions", "agent"));
+        options.AddPolicy("a", policy => policy.RequireClaim("permissions", "a"));
+        options.AddPolicy("b", policy => policy.RequireClaim("permissions", "b"));
+        options.AddPolicy("c", policy => policy.RequireClaim("permissions", "c"));        
       });
 
       services.AddTransient<IUserService, IdentityUserService>();

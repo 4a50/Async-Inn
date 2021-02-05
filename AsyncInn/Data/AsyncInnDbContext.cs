@@ -45,9 +45,10 @@ namespace AsyncInn.Data
         hotelroom => new { hotelroom.RoomNumber, hotelroom.HotelID }
         );
       // Seeding Roles
-      SeedRole(modelBuilder, "Administrator", "create", "update", "delete");
-      SeedRole(modelBuilder, "Editor", "create", "update");
-      SeedRole(modelBuilder, "Writer", "create");
+      SeedRole(modelBuilder, "districtmanager", "a", "b", "c", "agentadd", "useradd");
+      SeedRole(modelBuilder, "propertymanager", "b", "c", "agentadd");
+      SeedRole(modelBuilder, "agent", "c");
+      //Anonymous users can view all GET commands.
 
     }
     /// <summary>
