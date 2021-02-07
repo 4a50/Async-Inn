@@ -56,6 +56,15 @@ namespace AsyncInn
           options.TokenValidationParameters = JwtTokenService.GetValidationParameters(Configuration);
         });
       ///
+      // Policy Additions
+      services.AddAuthorization(options =>
+      {
+        // Add "Name of Policy", and the Lambda returns a definition
+        options.AddPolicy("a", policy => policy.RequireClaim("permissions", "a"));
+        options.AddPolicy("b", policy => policy.RequireClaim("permissions", "b"));
+        options.AddPolicy("c", policy => policy.RequireClaim("permissions", "c"));
+      });
+      //
 
       services.AddTransient<IRoom, RoomRepository>();
       services.AddTransient<IHotel, HotelRepository>();

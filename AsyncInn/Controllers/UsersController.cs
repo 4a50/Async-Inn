@@ -1,5 +1,6 @@
 ﻿using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -24,6 +25,9 @@ namespace AsyncInn.Controllers
     public async Task<ActionResult<UserDto>> Register(RegisterUser data)
     {
       var user = await userService.Register(data, this.ModelState);
+      //RemoveLAter to add roles to people
+      
+      //
       if (ModelState.IsValid)
       {
         return user;
@@ -47,7 +51,16 @@ namespace AsyncInn.Controllers
 
 
     }
-
+    // Whoa! New annotation that will be able to Read the bearer token
+    // and return a user based on the claim/principal within...
+    [Authorize(Policy="a")]
+    [HttpGet("me")]
+    public async Task<ActionResult<UserDto>> Me()
+    {
+      // Following the [Authorize] phase, this.User will be ... you.
+      // Put a breakpoint here and inspect to see what's passed to our getUser method
+      return await userService.GetUser(this.User);
+    }
 
   }
 }

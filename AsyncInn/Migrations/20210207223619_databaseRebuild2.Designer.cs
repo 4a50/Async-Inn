@@ -4,14 +4,16 @@ using AsyncInn.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AsyncInn.Migrations
 {
     [DbContext(typeof(AsyncInnDbContext))]
-    partial class AsyncInnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210207223619_databaseRebuild2")]
+    partial class databaseRebuild2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,29 +305,6 @@ namespace AsyncInn.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "districtmanager",
-                            ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "DistrictManager",
-                            NormalizedName = "DISTRICTMANAGER"
-                        },
-                        new
-                        {
-                            Id = "propertmanager",
-                            ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "PropertManager",
-                            NormalizedName = "PROPERTMANAGER"
-                        },
-                        new
-                        {
-                            Id = "agent",
-                            ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Agent",
-                            NormalizedName = "AGENT"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -350,50 +329,6 @@ namespace AsyncInn.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClaimType = "permissions",
-                            ClaimValue = "a",
-                            RoleId = "districtmanager"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClaimType = "permissions",
-                            ClaimValue = "b",
-                            RoleId = "districtmanager"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClaimType = "permissions",
-                            ClaimValue = "c",
-                            RoleId = "districtmanager"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClaimType = "permissions",
-                            ClaimValue = "b",
-                            RoleId = "propertmanager"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ClaimType = "permissions",
-                            ClaimValue = "c",
-                            RoleId = "propertmanager"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ClaimType = "permissions",
-                            ClaimValue = "c",
-                            RoleId = "agent"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>

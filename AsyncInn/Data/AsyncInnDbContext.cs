@@ -1,7 +1,10 @@
 ﻿using AsyncInn.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AsyncInn.Data
 {
@@ -41,14 +44,37 @@ namespace AsyncInn.Data
       modelBuilder.Entity<HotelRoom>().HasKey(
         hotelroom => new { hotelroom.RoomNumber, hotelroom.HotelID }
         );
+      //Seeding Roles
+      SeedRole(modelBuilder, "DistrictManager", "a", "b", "c");
+      SeedRole(modelBuilder, "PropertManager", "b", "c");
+      SeedRole(modelBuilder, "Agent", "c");
 
-      //Build Model.
-      //Add a DbSet.
-      //Create a composite key
-      //modelBuilder.Entity<****>().HasKey(
-      //**** => new (****.CourseId, ****.StudentID
     }
+    private int nextId = 1;
+      private void SeedRole(ModelBuilder modelBuilder, string roleName, params string[] permissions)
+      {
+        var role = new IdentityRole
+        {
+          Id = roleName.ToLower(),
+          Name = roleName,
+          NormalizedName = roleName.ToUpper(),
+          ConcurrencyStamp = Guid.Empty.ToString()
+        };
+        modelBuilder.Entity<IdentityRole>().HasData(role);
+      
+      var roleClaims = permissions.Select(permission =>
+      new IdentityRoleClaim<string>
+      {
+        Id = nextId++,
+        RoleId = role.Id,
+        ClaimType = "permissions", // This matches what we did in Startup.cs
+    ClaimValue = permission
+      }).ToArray();
 
-
+      modelBuilder.Entity<IdentityRoleClaim<string>>().HasData(roleClaims);
+    }
   }
+
+
+  
 }

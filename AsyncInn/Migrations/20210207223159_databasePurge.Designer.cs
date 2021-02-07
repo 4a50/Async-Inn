@@ -4,14 +4,16 @@ using AsyncInn.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AsyncInn.Migrations
 {
     [DbContext(typeof(AsyncInnDbContext))]
-    partial class AsyncInnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210207223159_databasePurge")]
+    partial class databasePurge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -309,21 +311,21 @@ namespace AsyncInn.Migrations
                         {
                             Id = "districtmanager",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "DistrictManager",
+                            Name = "districtmanager",
                             NormalizedName = "DISTRICTMANAGER"
                         },
                         new
                         {
-                            Id = "propertmanager",
+                            Id = "propertymanager",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "PropertManager",
-                            NormalizedName = "PROPERTMANAGER"
+                            Name = "propertymanager",
+                            NormalizedName = "PROPERTYMANAGER"
                         },
                         new
                         {
                             Id = "agent",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "Agent",
+                            Name = "agent",
                             NormalizedName = "AGENT"
                         });
                 });
@@ -377,19 +379,40 @@ namespace AsyncInn.Migrations
                         {
                             Id = 4,
                             ClaimType = "permissions",
-                            ClaimValue = "b",
-                            RoleId = "propertmanager"
+                            ClaimValue = "agentadd",
+                            RoleId = "districtmanager"
                         },
                         new
                         {
                             Id = 5,
                             ClaimType = "permissions",
-                            ClaimValue = "c",
-                            RoleId = "propertmanager"
+                            ClaimValue = "useradd",
+                            RoleId = "districtmanager"
                         },
                         new
                         {
                             Id = 6,
+                            ClaimType = "permissions",
+                            ClaimValue = "b",
+                            RoleId = "propertymanager"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClaimType = "permissions",
+                            ClaimValue = "c",
+                            RoleId = "propertymanager"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClaimType = "permissions",
+                            ClaimValue = "agentadd",
+                            RoleId = "propertymanager"
+                        },
+                        new
+                        {
+                            Id = 9,
                             ClaimType = "permissions",
                             ClaimValue = "c",
                             RoleId = "agent"

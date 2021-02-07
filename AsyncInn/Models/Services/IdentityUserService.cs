@@ -61,6 +61,8 @@ namespace AsyncInn.Models.Services
 
       if (result.Succeeded)
       {
+        await userManager.AddToRolesAsync(user, data.Roles);
+
         return new UserDto
         {
           Id = user.Id,
@@ -94,5 +96,6 @@ namespace AsyncInn.Models.Services
         UserName = user.UserName
       };
     }
+
   }
 }
