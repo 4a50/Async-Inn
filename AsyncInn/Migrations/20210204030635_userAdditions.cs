@@ -2,16 +2,16 @@
 
 namespace AsyncInn.Migrations
 {
-    public partial class userAdditions : Migration
+  public partial class userAdditions : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-
-        }
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+
+    }
+  }
 }

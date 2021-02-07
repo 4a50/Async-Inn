@@ -36,7 +36,7 @@ namespace AsyncInn.Models.Interfaces.Services
     /// <param name="ID"></param>
     /// <returns></returns>
     public async Task DeleteAmenity(int ID)
-    {     
+    {
       AmenityDto amenityDto = await GetAmenity(ID);
       Amenity amenity = new Amenity { ID = amenityDto.ID };
       _context.Remove(amenity).State = EntityState.Deleted;
@@ -53,7 +53,7 @@ namespace AsyncInn.Models.Interfaces.Services
         {
           ID = amenity.ID,
           Name = amenity.Name
-        }).ToListAsync();      
+        }).ToListAsync();
     }
     /// <summary>
     /// Gets an individual Amenity
@@ -61,14 +61,14 @@ namespace AsyncInn.Models.Interfaces.Services
     /// <param name="ID"></param>
     /// <returns></returns>
     public async Task<AmenityDto> GetAmenity(int ID)
-    {      
+    {
       return await _context.Amenities
         .Select(am => new AmenityDto
         {
           ID = am.ID,
           Name = am.Name
         }).FirstOrDefaultAsync(i => (i.ID == ID));
-          
+
     }
     /// <summary>
     /// Updates an existing amenity

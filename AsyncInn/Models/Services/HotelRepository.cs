@@ -1,12 +1,10 @@
 ﻿using AsyncInn.Data;
 using AsyncInn.Models.APIs;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using static AsyncInn.Models.APIs.HotelRoomDto;
 
 namespace AsyncInn.Models.Interfaces.Services
 {
@@ -25,13 +23,19 @@ namespace AsyncInn.Models.Interfaces.Services
     /// <param name="roomNumber"></param>
     /// <returns></returns>
     public async Task AddHotelRoom(int hotelID, int roomNumber)
-    {      
+    {
       Hotel hotel = await _context.Hotel.FindAsync(hotelID);
       Room room = await _context.Room.FindAsync(2);
 
       HotelRoom newHotelRoom = new HotelRoom()
-      { PetFriendly = false, Rate = 0.00M, HotelID = hotel.Id, RoomNumber = roomNumber, RoomID = 1,
-      Room = room};    
+      {
+        PetFriendly = false,
+        Rate = 0.00M,
+        HotelID = hotel.Id,
+        RoomNumber = roomNumber,
+        RoomID = 1,
+        Room = room
+      };
 
       _context.Entry(newHotelRoom).State = EntityState.Added;
 
@@ -69,7 +73,7 @@ namespace AsyncInn.Models.Interfaces.Services
     {
       //var hotel = await _context.Hotel.FindAsync(hotelId);
       var roomList = await _context.HotelRoom
-          .Where(x => x.HotelID == hotelId)  
+          .Where(x => x.HotelID == hotelId)
           .Include(x => x.Room)
           .ToListAsync();
       //hotel.HotelRoom = roomList;
@@ -165,7 +169,7 @@ namespace AsyncInn.Models.Interfaces.Services
              ID = a.Amenities.ID,
              Name = a.Amenities.Name
            }).ToList()
-           
+
          }
        }).ToList()
      }).ToListAsync();
@@ -193,7 +197,7 @@ namespace AsyncInn.Models.Interfaces.Services
     /// <param name="roomNumebr"></param>
     /// <param name="hotelRoom"></param>
     /// <returns></returns>
-    public async Task<HotelRoom>UpdateHotelRoom(int hotelID, int roomNumber, HotelRoom hotelRoom)
+    public async Task<HotelRoom> UpdateHotelRoom(int hotelID, int roomNumber, HotelRoom hotelRoom)
     {
       Debug.WriteLine("Route Selected");
       _context.Entry(hotelRoom).State = EntityState.Modified;
