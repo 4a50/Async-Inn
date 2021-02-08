@@ -46,7 +46,7 @@ namespace AsyncInn.Data
         );
       //Seeding Roles
       SeedRole(modelBuilder, "DistrictManager", "a", "b", "c");
-      SeedRole(modelBuilder, "PropertManager", "b", "c");
+      SeedRole(modelBuilder, "PropertyManager", "b", "c");
       SeedRole(modelBuilder, "Agent", "c");
 
     }

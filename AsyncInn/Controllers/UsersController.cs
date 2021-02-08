@@ -2,6 +2,8 @@
 using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Controllers
@@ -17,17 +19,35 @@ namespace AsyncInn.Controllers
       userService = service;
     }
     /// <summary>
-    /// Registers a New User
+    /// Registers a New User using Policy of allAdd
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    [HttpPost("Register")]
-    public async Task<ActionResult<UserDto>> Register(RegisterUser data)
+    [Authorize(Policy ="a")]
+    [HttpPost("RegisterAll")]
+    public async Task<ActionResult<UserDto>> RegisterAll(RegisterUser data)
     {
       var user = await userService.Register(data, this.ModelState);
       //RemoveLAter to add roles to people
       
       //
+      if (ModelState.IsValid)
+      {
+        return user;
+      }
+      return BadRequest(new ValidationProblemDetails(ModelState));
+    }
+    [Authorize(Policy = "b")]
+    [HttpPost("RegisterAgent")]
+    public async Task<ActionResult<UserDto>> RegisterAgent(RegisterUser data)
+    {
+      //TODO: Test if != agent will return an error 
+      string r = data.Roles[0].ToUpper();        
+       if (r == "DISTRICTMANAGER" || r == "PROPERTYMANAGER") { return Unauthorized(); }
+
+      if (data.Roles.Contains("Districtmanager") || data.Roles.Contains("PropertyManager"))  return Unauthorized();
+      var user = await userService.Register(data, this.ModelState);
+      
       if (ModelState.IsValid)
       {
         return user;

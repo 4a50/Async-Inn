@@ -314,10 +314,10 @@ namespace AsyncInn.Migrations
                         },
                         new
                         {
-                            Id = "propertmanager",
+                            Id = "propertymanager",
                             ConcurrencyStamp = "00000000-0000-0000-0000-000000000000",
-                            Name = "PropertManager",
-                            NormalizedName = "PROPERTMANAGER"
+                            Name = "PropertyManager",
+                            NormalizedName = "PROPERTYMANAGER"
                         },
                         new
                         {
@@ -378,14 +378,14 @@ namespace AsyncInn.Migrations
                             Id = 4,
                             ClaimType = "permissions",
                             ClaimValue = "b",
-                            RoleId = "propertmanager"
+                            RoleId = "propertymanager"
                         },
                         new
                         {
                             Id = 5,
                             ClaimType = "permissions",
                             ClaimValue = "c",
-                            RoleId = "propertmanager"
+                            RoleId = "propertymanager"
                         },
                         new
                         {
