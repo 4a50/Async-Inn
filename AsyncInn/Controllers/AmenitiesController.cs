@@ -1,6 +1,7 @@
 ﻿using AsyncInn.Models;
 using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace AsyncInn.Controllers
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<AmenityDto>> GetAmenity(int id)
     {
       var amenity = await _amenity.GetAmenity(id);
@@ -42,6 +44,7 @@ namespace AsyncInn.Controllers
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Amenity>>> GetAmenities()
     {
       return Ok(await _amenity.GetAmenities());
@@ -56,6 +59,7 @@ namespace AsyncInn.Controllers
     /// <param name="amenity"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [Authorize(Policy="a")]
     public async Task<IActionResult> PutAmenity(int id, Amenity amenity)
     {
       if (id != amenity.ID)
@@ -74,6 +78,7 @@ namespace AsyncInn.Controllers
     /// <param name="amenity"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(Policy="a")]
     public async Task<ActionResult<AmenityDto>> PostAmenity(AmenityDto amenity)
     {
       Amenity newAmenity = await _amenity.Create(amenity);
@@ -88,6 +93,7 @@ namespace AsyncInn.Controllers
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
+    [Authorize(Policy ="a")]
     public async Task<ActionResult<Amenity>> DeleteAmenity(int id)
     {
       await _amenity.DeleteAmenity(id);

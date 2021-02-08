@@ -4,14 +4,16 @@ using AsyncInn.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AsyncInn.Migrations
 {
     [DbContext(typeof(AsyncInnDbContext))]
-    partial class AsyncInnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210208011457_addedSeedRoomAmenity")]
+    partial class addedSeedRoomAmenity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,14 +217,6 @@ namespace AsyncInn.Migrations
                             HotelID = 1,
                             PetFriendly = true,
                             Rate = 120.22m,
-                            RoomID = 1
-                        },
-                        new
-                        {
-                            RoomNumber = 667,
-                            HotelID = 1,
-                            PetFriendly = false,
-                            Rate = 222.22m,
                             RoomID = 1
                         });
                 });

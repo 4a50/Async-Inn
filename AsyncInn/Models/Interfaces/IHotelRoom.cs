@@ -6,8 +6,10 @@ namespace AsyncInn.Models.Interfaces
 {
   public interface IHotelRoom
   {
-    Task<HotelRoom> Create(HotelRoomDto hotelRoom);
-    Task<List<HotelRoom>> GetAllRoomsHotel();
+    public Task<HotelRoom> Create(HotelRoomDto hrDto);
+    public Task AddHotelRoom(int hotelID, int roomNumber);
+    public Task<List<HotelRoom>> GetAllRoomsHotel();
+    public Task<HotelRoom> GetRoomDetails(int hotelId, int roomNumber);
     Task<HotelRoomDto> GetHotelRoom(int hotelid, int roomid);
 
     Task<HotelRoom> UpdateHotelRoom(int hotelid, int roomid, HotelRoom hotelRoom);

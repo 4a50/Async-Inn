@@ -37,7 +37,8 @@ namespace AsyncInn.Data
       modelBuilder.Entity<Amenity>().HasData(new Amenity { ID = 3, Name = "Coffee Pot" });
 
       modelBuilder.Entity<HotelRoom>().HasData(new HotelRoom { HotelID = 1, RoomNumber = 1001, RoomID = 1, Rate = 120.22M, PetFriendly = true });
-
+      modelBuilder.Entity<HotelRoom>().HasData(new HotelRoom { HotelID = 1, RoomNumber = 667, RoomID = 1, Rate = 222.22M, PetFriendly = false });
+      modelBuilder.Entity<RoomAmenity>().HasData(new RoomAmenity { AmenityId = 2, RoomId = 1 });
       modelBuilder.Entity<RoomAmenity>().HasKey(
         roomamenities => new { roomamenities.AmenityId, roomamenities.RoomId }
         );

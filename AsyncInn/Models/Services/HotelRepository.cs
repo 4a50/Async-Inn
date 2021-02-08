@@ -16,31 +16,7 @@ namespace AsyncInn.Models.Interfaces.Services
     {
       _context = context;
     }
-    /// <summary>
-    /// Adds A New Hotel Room to the Hotel
-    /// </summary>
-    /// <param name="hotelID"></param>
-    /// <param name="roomNumber"></param>
-    /// <returns></returns>
-    public async Task AddHotelRoom(int hotelID, int roomNumber)
-    {
-      Hotel hotel = await _context.Hotel.FindAsync(hotelID);
-      Room room = await _context.Room.FindAsync(2);
-
-      HotelRoom newHotelRoom = new HotelRoom()
-      {
-        PetFriendly = false,
-        Rate = 0.00M,
-        HotelID = hotel.Id,
-        RoomNumber = roomNumber,
-        RoomID = 1,
-        Room = room
-      };
-
-      _context.Entry(newHotelRoom).State = EntityState.Added;
-
-      await _context.SaveChangesAsync();
-    }
+    
     /// <summary>
     /// Creates a NEW hotel
     /// </summary>
@@ -53,17 +29,7 @@ namespace AsyncInn.Models.Interfaces.Services
       return hotel;
 
     }
-    /// <summary>
-    /// Removes a Hotel From the Database
-    /// </summary>
-    /// <param name="ID"></param>
-    /// <returns></returns>
-    public async Task DeleteHotel(int ID)
-    {
-      HotelDto hotel = await GetHotel(ID);
-      _context.Remove(hotel).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-      await _context.SaveChangesAsync();
-    }
+    
     /// <summary>
     /// Get All Room associated with a given Hotel
     /// </summary>
@@ -79,18 +45,7 @@ namespace AsyncInn.Models.Interfaces.Services
       //hotel.HotelRoom = roomList;
       return roomList;
     }
-    /// <summary>
-    /// Retrieves the details of a room in a given hotel
-    /// </summary>
-    /// <param name="hotelId"></param>
-    /// <param name="roomNumber"></param>
-    /// <returns></returns>
-    public async Task<HotelRoom> GetRoomDetails(int hotelId, int roomNumber)
-    {
-      HotelRoom hotelRoom = await _context.HotelRoom.FirstOrDefaultAsync(
-                             x => x.HotelID == hotelId && x.RoomNumber == roomNumber);
-      return hotelRoom;
-    }
+   
     /// <summary>
     /// Gets information for a given hotel ID
     /// </summary>
@@ -203,11 +158,16 @@ namespace AsyncInn.Models.Interfaces.Services
       _context.Entry(hotelRoom).State = EntityState.Modified;
       await _context.SaveChangesAsync();
       return hotelRoom;
-    }
-    public async Task DeleteHotelRoom(int hotelId, int roomNumber)
+    }    
+    /// <summary>
+    /// Removes a Hotel From the Database
+    /// </summary>
+    /// <param name="ID"></param>
+    /// <returns></returns>
+    public async Task DeleteHotel(int ID)
     {
-      HotelRoom hotelRoom = await GetRoomDetails(hotelId, roomNumber);
-      _context.Remove(hotelRoom).State = EntityState.Deleted;
+      HotelDto hotel = await GetHotel(ID);
+      _context.Remove(hotel).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
       await _context.SaveChangesAsync();
     }
   }
