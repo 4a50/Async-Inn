@@ -119,7 +119,7 @@ namespace AsyncInn.Models.Interfaces.Services
     /// <param name="hotelRoom"></param>
     /// <returns></returns>
     public async Task<HotelRoom> UpdateHotelRoom(int hotelid, int roomid, HotelRoom hotelRoom)
-    {
+    {     
       _context.Entry(hotelRoom).State = EntityState.Modified;
       await _context.SaveChangesAsync();
       return hotelRoom;

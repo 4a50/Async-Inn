@@ -41,6 +41,7 @@ namespace AsyncInnTests
       _db.Amenities.Add(amenity);
       await _db.SaveChangesAsync();
       Assert.NotEqual(0, amenity.ID);
+      _db.Entry(amenity).State = EntityState.Detached;
       return amenity;
     }
     protected async Task<Room> CreateAndSaveANewRoomType()
@@ -53,7 +54,40 @@ namespace AsyncInnTests
       _db.Room.Add(room);
       await _db.SaveChangesAsync();
       Assert.NotEqual(0, room.ID);
+      _db.Entry(room).State = EntityState.Detached;
       return room;
     }
+    public async Task<Hotel> CreateAndSaveANewHotel()
+    {
+      var hotel = new Hotel
+      {
+        Name = "Obscura",
+        StreetAddress = "Middle Of Your Mind",
+        City = "Hippocampus",
+        State = "Brain",
+        Country = "You",
+        Phone = "(123) 123 - 1233"
+      };
+      _db.Hotel.Add(hotel);
+      await _db.SaveChangesAsync();
+      Assert.NotEqual(0, hotel.Id);
+      _db.Entry(hotel).State = EntityState.Detached;
+      return hotel;
+    }
+    public async Task<HotelRoom> CreateAndSaveHotelRoom()
+    {
+      var hotelRoom = new HotelRoom
+      {
+        HotelID = 2,
+        RoomID = 1,
+        PetFriendly = false,
+        Rate = 100.00M,
+        RoomNumber = 1234
+      };
+      _db.HotelRoom.Add(hotelRoom);
+      await _db.SaveChangesAsync();
+      _db.Entry(hotelRoom).State = EntityState.Detached;
+      return hotelRoom;
+    }    
   }
 }

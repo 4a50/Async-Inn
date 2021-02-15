@@ -38,19 +38,19 @@ namespace AsyncInn.Controllers
     /// <param name="hotelId"></param>
     /// <param name="roomId"></param>
     /// <returns></returns>
-    [HttpGet("{hotelId}/Rooms/{roomId}")]
-    [AllowAnonymous]
-    public async Task<ActionResult<HotelRoomDto>> GetHotelRoom(int hotelId, int roomId)
-    {
-      var hotelRoom = await _hotelRoom.GetHotelRoom(hotelId, roomId);
+    //[HttpGet("{hotelId}/Rooms/{roomId}")]
+    //[AllowAnonymous]
+    //public async Task<ActionResult<HotelRoomDto>> GetHotelRoom(int hotelId, int roomId)
+    //{
+    //  var hotelRoom = await _hotelRoom.GetHotelRoom(hotelId, roomId);
 
-      if (hotelRoom == null)
-      {
-        return NotFound();
-      }
+    //  if (hotelRoom == null)
+    //  {
+    //    return NotFound();
+    //  }
 
-      return hotelRoom;
-    }
+    //  return hotelRoom;
+    //}
     /// <summary>
     /// Get the Room Details of a specific Room in a selected Hotel
     /// </summary>
