@@ -3,8 +3,7 @@ using AsyncInn.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Models.Services
@@ -12,11 +11,15 @@ namespace AsyncInn.Models.Services
   public class IdentityUserService : IUserService
   {
     private UserManager<ApplicationUser> userManager;
+    private JwtTokenService tokenService;
 
-    public IdentityUserService(UserManager<ApplicationUser> manager)
+
+    public IdentityUserService(UserManager<ApplicationUser> manager, JwtTokenService jwtTokenService)
     {
       userManager = manager;
+      tokenService = jwtTokenService;
     }
+
     /// <summary>
     /// Authenticates User Name and Password with values stored in the database
     /// </summary>
@@ -31,7 +34,8 @@ namespace AsyncInn.Models.Services
         return new UserDto
         {
           Id = user.Id,
-          UserName = user.UserName
+          UserName = user.UserName,
+          Token = await tokenService.GetToken(user, TimeSpan.FromMinutes(150))
         };
       }
       return null;
@@ -57,10 +61,13 @@ namespace AsyncInn.Models.Services
 
       if (result.Succeeded)
       {
+        await userManager.AddToRolesAsync(user, data.Roles);
+
         return new UserDto
         {
           Id = user.Id,
-          UserName = user.UserName
+          UserName = user.UserName,
+          Token = await tokenService.GetToken(user, System.TimeSpan.FromMinutes(105))
         };
       }
 
@@ -78,6 +85,17 @@ namespace AsyncInn.Models.Services
       }
 
       return null;
-    }    
+    }
+
+    public async Task<UserDto> GetUser(ClaimsPrincipal principal)
+    {
+      var user = await userManager.GetUserAsync(principal);
+      return new UserDto
+      {
+        Id = user.Id,
+        UserName = user.UserName
+      };
+    }
+
   }
 }

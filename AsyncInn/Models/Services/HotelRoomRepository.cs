@@ -27,13 +27,51 @@ namespace AsyncInn.Models.Interfaces.Services
         RoomID = hrDto.RoomID,
         RoomNumber = hrDto.RoomNumber,
         Rate = hrDto.Rate,
-        PetFriendly = hrDto.PetFriendly,        
+        PetFriendly = hrDto.PetFriendly,
       };
-      
+
       _context.Entry(hotelRoom).State = EntityState.Added;
       await _context.SaveChangesAsync();
       return hotelRoom;
     }
+    /// Adds A New Hotel Room to the Hotel
+    /// </summary>
+    /// <param name="hotelID"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
+    public async Task AddHotelRoom(int hotelID, int roomNumber)
+    {
+      Hotel hotel = await _context.Hotel.FindAsync(hotelID);
+      Room room = await _context.Room.FindAsync(2);
+
+      HotelRoom newHotelRoom = new HotelRoom()
+      {
+        PetFriendly = false,
+        Rate = 0.00M,
+        HotelID = hotel.Id,
+        RoomNumber = roomNumber,
+        RoomID = 1,
+        Room = room
+      };
+
+      _context.Entry(newHotelRoom).State = EntityState.Added;
+
+      await _context.SaveChangesAsync();
+    }
+    /// <summary>
+    /// Retrieves the details of a room in a given hotel
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
+    public async Task<HotelRoom> GetRoomDetails(int hotelId, int roomNumber)
+    {
+      HotelRoom hotelRoom = await _context.HotelRoom.FirstOrDefaultAsync(
+                             x => x.HotelID == hotelId && x.RoomNumber == roomNumber);
+      return hotelRoom;
+    }
+
+
     /// <summary>
     /// GET: Get's an individual HotelRoom
     /// </summary>
@@ -62,7 +100,7 @@ namespace AsyncInn.Models.Interfaces.Services
               Name = a.Amenities.Name
             }).ToList()
           }
-        }).FirstOrDefaultAsync(x => (x.HotelID == hotelid && x.RoomNumber == roomNumber));           
+        }).FirstOrDefaultAsync(x => (x.HotelID == hotelid && x.RoomNumber == roomNumber));
     }
     /// <summary>
     /// GET: Returns a list of all Rooms in a Hotel
@@ -81,7 +119,7 @@ namespace AsyncInn.Models.Interfaces.Services
     /// <param name="hotelRoom"></param>
     /// <returns></returns>
     public async Task<HotelRoom> UpdateHotelRoom(int hotelid, int roomid, HotelRoom hotelRoom)
-    {
+    {     
       _context.Entry(hotelRoom).State = EntityState.Modified;
       await _context.SaveChangesAsync();
       return hotelRoom;

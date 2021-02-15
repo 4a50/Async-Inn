@@ -1,6 +1,7 @@
 ﻿using AsyncInn.Models;
 using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace AsyncInn.Controllers
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Room>>> GetRoom()
     {
       return Ok(await _room.GetRooms());
@@ -36,6 +38,7 @@ namespace AsyncInn.Controllers
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<RoomDto>> GetRoom(int id)
     {
       var room = await _room.GetRoom(id);
@@ -54,8 +57,9 @@ namespace AsyncInn.Controllers
     /// </summary>
     /// <param name="id"></param>
     /// <param name="room"></param>
-    /// <returns></returns>
+    /// <returns></returns>    
     [HttpPut("{id}")]
+    [Authorize(Policy="a")]
     public async Task<IActionResult> PutRoom(int id, RoomDto room)
     {
       if (id != room.ID)
@@ -75,6 +79,7 @@ namespace AsyncInn.Controllers
     /// <param name="room"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(Policy ="a")]
     public async Task<ActionResult<Room>> PostRoom(RoomDto room)
     {
       await _room.Create(room);
@@ -91,6 +96,7 @@ namespace AsyncInn.Controllers
 
     [HttpPost]
     [Route("{roomid}/Amenity/{amenityId}")]
+    [Authorize(Policy="c")]
     public async Task<ActionResult<Room>> AddAmenityToRoom(int roomid, int amenityId)
     {
       await _room.AddAmenityToRoom(roomid, amenityId);
@@ -105,6 +111,7 @@ namespace AsyncInn.Controllers
     /// <param name="amenityId"></param>
     /// <returns></returns>
     [HttpDelete("{id}/Amenity/{amenityId}")]
+    [Authorize(Policy ="c")]
     public async Task<ActionResult<Room>> RemoveAmenityFromRoom(int id, int amenityId)
     {
       await _room.RemoveAmenityFromRoom(id, amenityId);
@@ -117,6 +124,7 @@ namespace AsyncInn.Controllers
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
+    [Authorize(Policy="a")]
     [HttpDelete("{id}")]
     public async Task<ActionResult<Room>> DeleteRoom(int id)
     {

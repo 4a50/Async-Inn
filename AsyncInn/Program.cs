@@ -12,17 +12,17 @@ namespace AsyncInn
     public static void Main(string[] args)
     {
       var host = CreateHostBuilder(args).Build();
-        
-      UpdateDatabase(host.Services);        
-        host.Run();
+
+      UpdateDatabase(host.Services);
+      host.Run();
     }
 
     public static void UpdateDatabase(IServiceProvider services)
     {
       using (var serviceScope = services.CreateScope())
       {
-        using (var db  = serviceScope.ServiceProvider.GetService<AsyncInnDbContext>())
-            {
+        using (var db = serviceScope.ServiceProvider.GetService<AsyncInnDbContext>())
+        {
           db.Database.Migrate();
         }
       }

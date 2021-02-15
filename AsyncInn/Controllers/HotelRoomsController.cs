@@ -1,15 +1,14 @@
 ﻿using AsyncInn.Models;
 using AsyncInn.Models.APIs;
 using AsyncInn.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AsyncInn.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/Hotels")]
   [ApiController]
   public class HotelRoomsController : ControllerBase
   {
@@ -26,6 +25,7 @@ namespace AsyncInn.Controllers
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<HotelRoom>>> GetHotelRoom()
     {
       return Ok(await _hotelRoom.GetAllRoomsHotel());
@@ -38,38 +38,53 @@ namespace AsyncInn.Controllers
     /// <param name="hotelId"></param>
     /// <param name="roomId"></param>
     /// <returns></returns>
-    [HttpGet("{id}/{roomId}")]
-    public async Task<ActionResult<HotelRoomDto>> GetHotelRoom(int hotelId, int roomId)
+    //[HttpGet("{hotelId}/Rooms/{roomId}")]
+    //[AllowAnonymous]
+    //public async Task<ActionResult<HotelRoomDto>> GetHotelRoom(int hotelId, int roomId)
+    //{
+    //  var hotelRoom = await _hotelRoom.GetHotelRoom(hotelId, roomId);
+
+    //  if (hotelRoom == null)
+    //  {
+    //    return NotFound();
+    //  }
+
+    //  return hotelRoom;
+    //}
+    /// <summary>
+    /// Get the Room Details of a specific Room in a selected Hotel
+    /// </summary>
+    /// <param name="hotelId"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
+    //Get: api/Hotels/3/Rooms/3
+
+    [HttpGet]
+    [Route("{hotelId}/Rooms/{roomNumber}")]
+    [AllowAnonymous]
+    public async Task<ActionResult<Hotel>> GetRoomDetails(int hotelId, int roomNumber)
     {
-      var hotelRoom = await _hotelRoom.GetHotelRoom(hotelId, roomId);
-
-      if (hotelRoom == null)
-      {
-        return NotFound();
-      }
-
-      return hotelRoom;
+      return Ok(await _hotelRoom.GetRoomDetails(hotelId, roomNumber));
     }
 
     /// <summary>
-    /// PUT: api/HotelRooms/5    
-    /// Updates A Hotel Room given a HotelID and RoomNumber
+    /// Adds a Room to a Given Hotel
+    /// Post: api/Hotels/1/Rooms/3
     /// </summary>
-    /// <param name="hotelid"></param>
-    /// <param name="roomid"></param>
-    /// <param name="hotelRoom"></param>
+    /// <param name="hotelID"></param>
+    /// <param name="roomNumber"></param>
     /// <returns></returns>
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutHotelRoom(int hotelid, int roomid, HotelRoom hotelRoom)
-    {
-      if (hotelid != hotelRoom.HotelID && roomid != hotelRoom.RoomID)
-      {
-        return BadRequest();
-      }
 
-      var updatedRoom = await _hotelRoom.UpdateHotelRoom(hotelid, roomid, hotelRoom);
-      return Ok(updatedRoom);
+
+    [HttpPost]
+    [Route("{hotelID}/Rooms/{roomNumber}")]
+    [Authorize(Policy ="b")]
+    public async Task<ActionResult<HotelRoom>> AddHotelRoom(int hotelID, int roomNumber)
+    {
+      await _hotelRoom.AddHotelRoom(hotelID, roomNumber);
+      return NoContent();
     }
+    /// <summary>
 
     /// <summary>
     ///  api/HotelRooms    
@@ -77,18 +92,51 @@ namespace AsyncInn.Controllers
     /// </summary>
     /// <param name="hotelRoom"></param>
     /// <returns></returns>
+
     [HttpPost]
+    [Authorize(Policy="b")]
     public async Task<ActionResult<HotelRoom>> PostHotelRoom(HotelRoomDto hotelRoom)
     {
       await _hotelRoom.Create(hotelRoom);
       return CreatedAtAction("Get HotelRoom", hotelRoom);
     }
-    // DELETE: api/HotelRooms/5
-    [HttpDelete("{hotelId}/{roomId}")]
-    public async Task<ActionResult<HotelRoom>> DeleteHotelRoom(int holelId, int roomid)
+    /// <summary>
+    /// PUT: api/HotelRooms/5    
+    /// Updates A Hotel Room given a HotelID and RoomNumber
+    /// </summary>
+    /// <param name="hotelid"></param>
+    /// <param name="roomid"></param>
+    /// <param name="hotelRoom"></param>
+    /// <returns></returns>    
+    [HttpPut("{hotelid}/Rooms/{roomNumber}")]
+    [Authorize(Policy="c")]
+    public async Task<IActionResult> PutHotelRoom(int hotelid, int roomNumber, HotelRoom hotelRoom)
     {
-      await _hotelRoom.DeleteHotelRoom(holelId, roomid);
+      if (hotelid != hotelRoom.HotelID && roomNumber != hotelRoom.RoomID)
+      {
+        return BadRequest();
+      }
+
+      var updatedRoom = await _hotelRoom.UpdateHotelRoom(hotelid, roomNumber, hotelRoom);
+      return Ok(updatedRoom);
+    }
+
+    /// <summary>
+    /// Removes a HotelRoom from a Hotel 
+    /// DELETE: api/Hotels/1/232
+    /// </summary>
+    /// <param name="holelId"></param>
+    /// <param name="roomNumber"></param>
+    /// <returns></returns>
+
+    [HttpDelete("{hotelId}/{roomNumber}")]
+    [Authorize(Policy ="a")]
+    public async Task<ActionResult<HotelRoom>> DeleteHotelRoom(int holelId, int roomNumber)
+    {
+
+      await _hotelRoom.DeleteHotelRoom(holelId, roomNumber);
       return NoContent();
     }
+
   }
 }
